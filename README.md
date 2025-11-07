@@ -24,4 +24,4 @@ git push origin ten-nhanh-cua-ban
 ```
 4. Tạo Pull Request (PR) trên GitHub để review và merge vào nhánh chính
 
-
+##Data Source=DESKTOP-9DGDRK8\\SQLEXPRESS;Initial Catalog=QL_GYM;Integrated Security=True;
