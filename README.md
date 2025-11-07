@@ -3,7 +3,7 @@
 ## Khi bắt đầu làm việc
 1. Cập nhật repository mới nhất
 ```bash
-git pull origin master
+git pull origin main
 ```
 2. Tạo nhánh riêng để làm việc
 ```bash
