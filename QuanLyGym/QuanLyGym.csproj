@@ -159,11 +159,17 @@
     <EmbeddedResource Include="Forms\Components\frmAddMember.resx">
       <DependentUpon>frmAddMember.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmDangKyLop.resx">
+      <DependentUpon>frmDangKyLop.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmGoiTap.resx">
       <DependentUpon>frmGoiTap.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmKhachHang.resx">
       <DependentUpon>frmKhachHang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmLogin.resx">
+      <DependentUpon>frmLogin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
