@@ -17,9 +17,34 @@ namespace QuanLyGym.Forms
             CenterToScreen();
             InitializeComponent();
             this.btn_ShowMember.Click += Btn_ShowMember_Click;
+            this.btn_GoiTap.Click += Btn_GoiTap_Click;
+            this.btn_HuanLuyenVien.Click += Btn_HuanLuyenVien_Click;
+            this.btn_LopTap.Click += Btn_LopTap_Click;
+            this.btn_ThietBi.Click += Btn_ThietBi_Click;
         }
+
+        private void Btn_ThietBi_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(new frmThietBi());
+        }
+
+        private void Btn_LopTap_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(new frmLop());
+        }
+
+        private void Btn_HuanLuyenVien_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(new frmHuanLuyenVien());
+        }
+
+        private void Btn_GoiTap_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(new frmGoiTap());
+        }
+
         // Hàm chung để mở 1 form con (childForm) vào 1 panel
-        private void OpenChildForm(Form childForm)
+        public void OpenChildForm(Form childForm)
         {
            
             pnl_Main.Controls.Clear();

@@ -1,6 +1,6 @@
-﻿namespace QuanLyGym.Forms
+﻿namespace QuanLyGym.Forms.Components
 {
-    partial class frmThongKe
+    partial class frmChiTietMembercs
     {
         /// <summary>
         /// Required designer variable.
@@ -28,17 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // frmThongKe
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1628, 812);
-            this.Name = "frmThongKe";
-            this.Text = "frmThongKe";
-            this.ResumeLayout(false);
-
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Text = "frmChiTietMembercs";
         }
 
         #endregion

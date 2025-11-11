@@ -15,6 +15,15 @@ namespace QuanLyGym.Forms
         public frmLop()
         {
             InitializeComponent();
+            this.btn_AddMember.Click += Btn_AddMember_Click;
         }
+
+        private void Btn_AddMember_Click(object sender, EventArgs e)
+        {
+            frmDangKyLop dkl = new frmDangKyLop();
+            dkl.ShowDialog();
+        }
+
+       
     }
 }

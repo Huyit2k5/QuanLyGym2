@@ -10,7 +10,7 @@ namespace QuanLyGym
 {
     public class DBConnect
     {
-        static string conStr = "Data Source=DESKTOP-9DGDRK8\\SQLEXPRESS;Initial Catalog=QL_GYM;Integrated Security=True;";
+        static string conStr = "Data Source=LAPTOP-KFHR4M8Q;Initial Catalog=QL_GYM;Integrated Security=True;";
 
         SqlConnection conn = new SqlConnection(conStr);
 

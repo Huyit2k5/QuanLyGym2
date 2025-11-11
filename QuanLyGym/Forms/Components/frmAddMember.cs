@@ -46,7 +46,7 @@ namespace QuanLyGym.Forms
             kh.Sdt = txt_SDT.Text;
             kh.GioiTinh = cbo_GioiTinh.Text;
             kh.Email = txt_Email.Text;
-            kh.TinhTrang = cbo_TinhTrang.Text;
+            
 
 
             if (khBus.ThemKH(kh)){
@@ -70,7 +70,7 @@ namespace QuanLyGym.Forms
                 txt_SDT.DataBindings.Add("Text", _source, "SDT");
                 cbo_GioiTinh.DataBindings.Add("Text", _source, "GioiTinh");
                 txt_Email.DataBindings.Add("Text", _source, "Email");
-                cbo_TinhTrang.DataBindings.Add("Text", _source, "TinhTrang");
+                
             }
         }
 
@@ -118,7 +118,7 @@ namespace QuanLyGym.Forms
             txt_SDT.Text = dt.Rows[0]["SDT"].ToString();
             cbo_GioiTinh.Text = dt.Rows[0]["GioiTinh"].ToString();
             txt_Email.Text = dt.Rows[0]["Email"].ToString();
-            cbo_TinhTrang.Text = dt.Rows[0]["TinhTrang"].ToString();
+            
         }
     }
 }
