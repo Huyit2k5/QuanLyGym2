@@ -73,10 +73,10 @@
     <Compile Include="Forms\Components\frmAddMember.Designer.cs">
       <DependentUpon>frmAddMember.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmAddNhanVien.cs">
+    <Compile Include="Forms\Components\frmAddNhanVien.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmAddNhanVien.Designer.cs">
+    <Compile Include="Forms\Components\frmAddNhanVien.Designer.cs">
       <DependentUpon>frmAddNhanVien.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmAdmin.cs">
@@ -85,16 +85,16 @@
     <Compile Include="Forms\frmAdmin.Designer.cs">
       <DependentUpon>frmAdmin.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmDangKyLop.cs">
+    <Compile Include="Forms\Components\frmDangKyLop.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmDangKyLop.Designer.cs">
+    <Compile Include="Forms\Components\frmDangKyLop.Designer.cs">
       <DependentUpon>frmDangKyLop.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmDangKyPT.cs">
+    <Compile Include="Forms\Components\frmDangKyPT.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmDangKyPT.Designer.cs">
+    <Compile Include="Forms\Components\frmDangKyPT.Designer.cs">
       <DependentUpon>frmDangKyPT.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmGoiTap.cs">
@@ -178,13 +178,13 @@
     <EmbeddedResource Include="Forms\Components\frmAddMember.resx">
       <DependentUpon>frmAddMember.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmAddNhanVien.resx">
+    <EmbeddedResource Include="Forms\Components\frmAddNhanVien.resx">
       <DependentUpon>frmAddNhanVien.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmAdmin.resx">
       <DependentUpon>frmAdmin.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmDangKyLop.resx">
+    <EmbeddedResource Include="Forms\Components\frmDangKyLop.resx">
       <DependentUpon>frmDangKyLop.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmGoiTap.resx">
@@ -233,16 +233,16 @@
     <Folder Include="Reports\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\snapedit_1703427284007.png" />
+    <None Include="Resources\logo\snapedit_1703427284007.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Gemini_Generated_Image_lo3k9ulo3k9ulo3k.png" />
+    <None Include="Resources\logo\Gemini_Generated_Image_lo3k9ulo3k9ulo3k.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\add-image.png" />
+    <None Include="Resources\icon\add-image.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\LogoHuitGym.png" />
+    <None Include="Resources\logo\LogoHuitGym.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
