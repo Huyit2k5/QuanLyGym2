@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BUS\KhachHangBUS.cs" />
+    <Compile Include="BUS\NhanVienBUS.cs" />
     <Compile Include="DBConnect.cs" />
     <Compile Include="Forms\Components\Header.cs">
       <SubType>Form</SubType>
@@ -71,6 +72,18 @@
     </Compile>
     <Compile Include="Forms\Components\frmAddMember.Designer.cs">
       <DependentUpon>frmAddMember.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmAddNhanVien.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmAddNhanVien.Designer.cs">
+      <DependentUpon>frmAddNhanVien.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmAdmin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmAdmin.Designer.cs">
+      <DependentUpon>frmAdmin.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmDangKyLop.cs">
       <SubType>Form</SubType>
@@ -132,6 +145,12 @@
     <Compile Include="Forms\frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmNhanVien.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmNhanVien.Designer.cs">
+      <DependentUpon>frmNhanVien.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmTheThanhVien.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -159,6 +178,12 @@
     <EmbeddedResource Include="Forms\Components\frmAddMember.resx">
       <DependentUpon>frmAddMember.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmAddNhanVien.resx">
+      <DependentUpon>frmAddNhanVien.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmAdmin.resx">
+      <DependentUpon>frmAdmin.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmDangKyLop.resx">
       <DependentUpon>frmDangKyLop.cs</DependentUpon>
     </EmbeddedResource>
@@ -173,6 +198,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmNhanVien.resx">
+      <DependentUpon>frmNhanVien.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

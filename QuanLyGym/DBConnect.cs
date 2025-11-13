@@ -10,7 +10,7 @@ namespace QuanLyGym
 {
     public class DBConnect
     {
-        static string conStr = "Data Source=DESKTOP-9DGDRK8\\SQLEXPRESS;Initial Catalog=QL_GYM;Integrated Security=True;";
+        static string conStr = "Data Source=localhost;Initial Catalog=QL_GYM;Integrated Security=True;";
 
         SqlConnection conn = new SqlConnection(conStr);
 
@@ -48,6 +48,16 @@ namespace QuanLyGym
             {
                 return false;
             }
+        }
+
+        public DataTable GetUserRoles(string username)
+        {
+            string query = $"SELECT r.name AS RoleName " +
+                           $"FROM sys.database_role_members rm " +
+                           $"JOIN sys.database_principals r ON rm.role_principal_id = r.principal_id " +
+                           $"JOIN sys.database_principals p ON rm.member_principal_id = p.principal_id " +
+                           $"WHERE p.name = '{username}'";
+            return GetData(query);
         }
 
     }

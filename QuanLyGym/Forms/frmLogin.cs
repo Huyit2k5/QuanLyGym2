@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.Sql;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -14,115 +15,105 @@ namespace QuanLyGym.Forms
 {
     public partial class frmLogin : Form
     {
+        DBConnect db = new DBConnect();
+        
         public frmLogin()
         {
             InitializeComponent();
             this.Load += FrmLogin_Load;
+            this.btn_Login.Click += Btn_Login_Click;
+        }
+
+        private bool CheckLoginExists(string username)
+        {
+            string query = "SELECT COUNT(*) AS CountLogin FROM sys.server_principals WHERE name = '"+username+"' AND type_desc = 'SQL_LOGIN' AND is_disabled = 0";
+
+            DataTable dt = db.GetData(query);
+
+            if (dt.Rows.Count > 0 && Convert.ToInt32(dt.Rows[0]["CountLogin"]) > 0)
+            {
+                return true;
+            }else
+            {
+                return false;
+            }
+        }
+
+        private bool TryConnect(string username, string password)
+        {
+            string connStr = $"Data Source=localhost;Initial Catalog=QL_GYM;User ID={username};Password={password};";
+            try
+            {
+                SqlConnection conn = new SqlConnection(connStr);
+                conn.Open();
+                return true; // mở kết nối thành công -> đăng nhập đúng
+                
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        private void Btn_Login_Click(object sender, EventArgs e)
+        {
+            string username = txt_UserName.Text.Trim();
+            string password = txt_Password.Text.Trim();
+
+            if (!CheckLoginExists(username))
+            {
+                MessageBox.Show("Tài khoản không tồn tại hoặc đã bị vô hiệu hóa.", "Lỗi Đăng Nhập", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (TryConnect(username, password))
+            {
+                DataTable rolesTable = db.GetUserRoles(username);
+
+                bool isAdmin = false;
+
+                string roleName = rolesTable.Rows[0]["RoleName"].ToString();
+
+                if (rolesTable.Rows.Count > 0)
+                {
+
+                    if (roleName.Equals("Admin", StringComparison.OrdinalIgnoreCase))
+                    {
+                        isAdmin = true;
+                    }
+                }
+
+                if (isAdmin)
+                {
+                    this.Hide();
+                    frmAdmin AdminForm = new frmAdmin();
+                    AdminForm.ShowDialog();
+                }
+                else
+                {
+                    if (cbo_Server.Text == "Admin")
+                    {
+                        MessageBox.Show("Tài khoản không có quyền");
+                        return;
+                    }
+                    this.Hide();
+                    frmMain mainForm = new frmMain();
+                    mainForm.ShowDialog();
+                    
+
+                }
+            }
+            else
+            {
+                MessageBox.Show("Đăng nhập thất bại. Vui lòng kiểm tra lại tên đăng nhập và mật khẩu.", "Lỗi Đăng Nhập", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void FrmLogin_Load(object sender, EventArgs e)
         {
-            try
-            {
-                cbo_Server.Items.Clear();
-
-                DataTable table = SqlDataSourceEnumerator.Instance.GetDataSources();
-
-                foreach (DataRow row in table.Rows)
-                {
-                    string serverName = row["ServerName"].ToString();
-                    string instanceName = row["InstanceName"].ToString();
-
-                    string fullName = string.IsNullOrEmpty(instanceName)
-                        ? serverName
-                        : $"{serverName}\\{instanceName}";
-
-                    // tránh duplicate
-                    if (!cbo_Server.Items.Contains(fullName))
-                        cbo_Server.Items.Add(fullName);
-                }
-
-                // Nếu không tìm thấy gì, thêm fallback cho local SQLEXPRESS
-                if (cbo_Server.Items.Count == 0)
-                {
-                    string localExpress = Environment.MachineName + @"\SQLEXPRESS";
-                    cbo_Server.Items.Add(localExpress);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi khi liệt kê SQL Server instances:\n" + ex.Message);
-                // thêm fallback chổ này nếu cần
-                cbo_Server.Items.Add(Environment.MachineName + @"\SQLEXPRESS");
-            }
+            cbo_Server.Items.Add("Admin");
+            cbo_Server.Items.Add("NhanVien");
+            cbo_Server.SelectedIndex = 0;
         }
-
-        //try
-        //{
-        //    RegistryKey rk = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Microsoft SQL Server");
-        //    String[] instances = (String[])rk.GetValue("InstalledInstances");
-        //    if (instances.Length > 0)
-        //    {
-        //        foreach (String element in instances)
-        //        {
-        //            if (element == "MSSQLSERVER")
-        //            {
-        //                cbo_Server.Items.Add(Environment.MachineName);
-        //            }
-        //            else
-        //            {
-        //                cbo_Server.Items.Add(Environment.MachineName + @"\" + element);
-        //            }
-        //        }
-        //        cbo_Server.SelectedIndex = 0;
-        //    }
-        //}
-        //catch (Exception ex)
-        //{
-        //    MessageBox.Show("Lỗi lấy tên server: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //}
-        //try
-        //{
-        //    cbo_Server.Items.Clear();
-
-        //    RegistryKey rk = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Microsoft SQL Server");
-        //    if (rk == null)
-        //    {
-        //        // Nếu không tìm thấy, thử thêm nhánh 64-bit
-        //        rk = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\WOW6432Node\Microsoft\Microsoft SQL Server");
-        //    }
-
-        //    if (rk != null)
-        //    {
-        //        string[] instances = (string[])rk.GetValue("InstalledInstances");
-
-        //        if (instances != null && instances.Length > 0)
-        //        {
-        //            foreach (string instance in instances)
-        //            {
-        //                string serverName = instance.Equals("MSSQLSERVER", StringComparison.OrdinalIgnoreCase)
-        //                    ? Environment.MachineName
-        //                    : Environment.MachineName + @"\" + instance;
-
-        //                cbo_Server.Items.Add(serverName);
-        //            }
-
-        //            cbo_Server.SelectedIndex = 0;
-        //        }
-        //        else
-        //        {
-        //            MessageBox.Show("Không tìm thấy instance SQL Server nào trên máy.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("Không thể truy cập registry để lấy danh sách server.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        //    }
-        //}
-        //catch (Exception ex)
-        //{
-        //    MessageBox.Show("Lỗi lấy tên server: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //}
     }
-    }
+}
 
