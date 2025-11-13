@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,111 +15,120 @@ namespace QuanLyGym.Forms
 {
     public partial class frmAddMember : Form
     {
-        BindingSource _source;
-        public frmAddMember(bool view = false)
+       
+       
+        KhachHangBUS khBus = new KhachHangBUS();
+        public frmAddMember()
         {
             InitializeComponent();
             this.CenterToParent();
             this.pic_PictureMember.Click += Pic_PictureMember_Click;
             this.txt_MaHoiVien.Enabled = false;
-            if (view)
-            {
-                txt_HoVaTenHoiVien.Enabled = false;
-                txt_MaHoiVien.Enabled = false;
-                txt_SDT.Enabled = false;
-                
-            }
+           
           this.Load += FrmAddMember_Load;
             this.btn_LuuHoiVien.Click += Btn_LuuHoiVien_Click;
+            
 
         }
 
-        public frmAddMember(BindingSource source)
-        {
-            _source = source;
-        }
+  
         private void Btn_LuuHoiVien_Click(object sender, EventArgs e)
         {
             KhachHang kh = new KhachHang();
-            KhachHangBUS khBus = new KhachHangBUS();
+            kh.MaKH = txt_MaHoiVien.Text; // Dùng mã đã sinh tự động
             kh.TenKH = txt_HoVaTenHoiVien.Text;
-            kh.NamSinh = int.Parse(txt_NamSinh.Text);
+
+            if (!int.TryParse(txt_NamSinh.Text, out int namSinh))
+            {
+                MessageBox.Show("Năm sinh không hợp lệ!");
+                return;
+            }
+            kh.NamSinh = namSinh;
+
             kh.Sdt = txt_SDT.Text;
             kh.GioiTinh = cbo_GioiTinh.Text;
             kh.Email = txt_Email.Text;
-            
+            // kh.TinhTrang = "Hoạt động"; // Gán mặc định
 
-
-            if (khBus.ThemKH(kh)){
-                MessageBox.Show("Thêm hội viên thành công!");
-            }
-            else
+            // 2. Xử lý ảnh
+            string duongDanDeLuuVaoCSDL = "";
+            if (pic_PictureMember.Tag != null)
             {
-                MessageBox.Show("Thêm hội viên thất bại!");
+                string duongDanGoc = pic_PictureMember.Tag.ToString();
+                string tenFileMoi = kh.MaKH + Path.GetExtension(duongDanGoc);
+                string thuMucDich = Path.Combine(Application.StartupPath, "Images", "HoiVien");
+
+                if (!Directory.Exists(thuMucDich))
+                {
+                    Directory.CreateDirectory(thuMucDich);
+                }
+
+                string duongDanMoi = Path.Combine(thuMucDich, tenFileMoi);
+                File.Copy(duongDanGoc, duongDanMoi, true);
+                duongDanDeLuuVaoCSDL = Path.Combine("Images", "HoiVien", tenFileMoi);
+            }
+            kh.HinhAnh = duongDanDeLuuVaoCSDL;
+
+            // 3. Gọi BUS để THÊM
+            try
+            {
+                if (khBus.ThemKH(kh))
+                {
+                    MessageBox.Show("Thêm hội viên thành công!");
+                    this.Close(); // Đóng form sau khi thêm
+                }
+                else
+                {
+                    MessageBox.Show("Thêm hội viên thất bại!");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi lưu: " + ex.Message);
             }
         }
+        
         private void FrmAddMember_Load(object sender, EventArgs e)
         {
+            this.Text = "Thêm hội viên mới";
+
+            // Nạp dữ liệu cho ComboBox
             this.cbo_GioiTinh.Items.Add("Nam");
             this.cbo_GioiTinh.Items.Add("Nữ");
-            if (_source != null)
-            {
-                // Binding các textbox với dữ liệu hiện tại
-                txt_MaHoiVien.DataBindings.Add("Text", _source, "MaKH");
-                txt_HoVaTenHoiVien.DataBindings.Add("Text", _source, "TenKH");
-                txt_NamSinh.DataBindings.Add("Text", _source, "NamSinh");
-                txt_SDT.DataBindings.Add("Text", _source, "SDT");
-                cbo_GioiTinh.DataBindings.Add("Text", _source, "GioiTinh");
-                txt_Email.DataBindings.Add("Text", _source, "Email");
-                
-            }
+            this.cbo_GioiTinh.SelectedIndex = 0; // Chọn "Nam" làm mặc định
+
+            // Sinh mã tự động và gán vào
+            txt_MaHoiVien.Text = khBus.TuDongSinhMaKH();
+            txt_MaHoiVien.Enabled = false; // Không cho sửa Mã
+
         }
 
         private void Pic_PictureMember_Click(object sender, EventArgs e)
         {
-            // 1. TẠO ĐỐI TƯỢNG OPENFILEDIALOG
-            // Bạn có thể dùng 'openFileDialog1' nếu đã kéo vào, 
-            // hoặc tạo mới như thế này:
-            OpenFileDialog dialog = new OpenFileDialog();
 
-            // 2. THIẾT LẬP BỘ LỌC (FILTER)
-            // Chỉ cho phép người dùng chọn các file ảnh
+            OpenFileDialog dialog = new OpenFileDialog();
             dialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.bmp";
             dialog.Title = "Hãy chọn một hình ảnh";
 
-            
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-                    // 4. LẤY ĐƯỜNG DẪN FILE ĐÃ CHỌN
                     string selectedImagePath = dialog.FileName;
-
-                    // 5. TẢI HÌNH ẢNH VÀO PICTUREBOX
-                    // (Nên dùng new Bitmap() để tránh lỗi khóa file)
                     pic_PictureMember.Image = new Bitmap(selectedImagePath);
-
-                    // (Tùy chọn) Chỉnh chế độ hiển thị cho vừa khung
                     pic_PictureMember.SizeMode = PictureBoxSizeMode.Zoom;
-                    pic_PictureMember.BackgroundImage = null ;
+                    pic_PictureMember.BackgroundImage = null;
+
+                    // Gán đường dẫn vào .Tag để nút Lưu có thể dùng
+                    pic_PictureMember.Tag = selectedImagePath;
                 }
                 catch (Exception ex)
                 {
-                    // Xử lý nếu file không phải là ảnh hợp lệ
                     MessageBox.Show("Lỗi: Không thể tải hình ảnh. " + ex.Message);
                 }
             }
         }
 
-        public void BingDingSource(DataTable dt)
-        {
-            txt_MaHoiVien.Text = dt.Rows[0]["MaHoiVien"].ToString();
-            txt_HoVaTenHoiVien.Text = dt.Rows[0]["HoVaTenHoiVien"].ToString();
-            txt_NamSinh.Text = dt.Rows[0]["NamSinh"].ToString();
-            txt_SDT.Text = dt.Rows[0]["SDT"].ToString();
-            cbo_GioiTinh.Text = dt.Rows[0]["GioiTinh"].ToString();
-            txt_Email.Text = dt.Rows[0]["Email"].ToString();
-            
-        }
+       
     }
 }

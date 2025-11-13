@@ -195,7 +195,7 @@
             // 
             // pic_PictureMember
             // 
-            this.pic_PictureMember.BackgroundImage = global::QuanLyGym.Properties.Resources.add_image;
+            this.pic_PictureMember.BackgroundImage = global::QuanLyGym.Properties.Resources.add_image1;
             this.pic_PictureMember.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pic_PictureMember.Location = new System.Drawing.Point(12, 83);
             this.pic_PictureMember.Name = "pic_PictureMember";

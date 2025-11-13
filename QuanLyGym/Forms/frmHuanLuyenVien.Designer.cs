@@ -29,23 +29,23 @@
         private void InitializeComponent()
         {
             this.dgv_DanhSachHocVienCuaHLV = new System.Windows.Forms.DataGridView();
+            this.Col_MaHV = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_TenHocVien = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_NgayBatDau = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_NgayKetThuc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_DanhSachCacLopHLV = new System.Windows.Forms.DataGridView();
+            this.col_MaLop = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_TenLop = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_SoLuongHocVien = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.dgv_DanhSachHLV = new System.Windows.Forms.DataGridView();
-            this.btn_ThemHLV = new System.Windows.Forms.Button();
             this.col_MaHLV = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_TenHLV = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_GioiTinh = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_ChuyenMon = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_SDTHLV = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_NamKinhNghiemHLV = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Col_MaHV = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_TenHocVien = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_NgayBatDau = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_NgayKetThuc = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_MaLop = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_TenLop = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_SoLuongHocVien = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btn_ThemHLV = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_DanhSachHocVienCuaHLV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_DanhSachCacLopHLV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_DanhSachHLV)).BeginInit();
@@ -65,8 +65,36 @@
             this.dgv_DanhSachHocVienCuaHLV.RowHeadersWidth = 51;
             this.dgv_DanhSachHocVienCuaHLV.RowTemplate.Height = 24;
             this.dgv_DanhSachHocVienCuaHLV.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv_DanhSachHocVienCuaHLV.Size = new System.Drawing.Size(591, 602);
+            this.dgv_DanhSachHocVienCuaHLV.Size = new System.Drawing.Size(591, 597);
             this.dgv_DanhSachHocVienCuaHLV.TabIndex = 11;
+            // 
+            // Col_MaHV
+            // 
+            this.Col_MaHV.DataPropertyName = "MaKH";
+            this.Col_MaHV.HeaderText = "Mã hội viên";
+            this.Col_MaHV.MinimumWidth = 6;
+            this.Col_MaHV.Name = "Col_MaHV";
+            // 
+            // col_TenHocVien
+            // 
+            this.col_TenHocVien.DataPropertyName = "TenKH";
+            this.col_TenHocVien.HeaderText = "Tên học viên";
+            this.col_TenHocVien.MinimumWidth = 6;
+            this.col_TenHocVien.Name = "col_TenHocVien";
+            // 
+            // col_NgayBatDau
+            // 
+            this.col_NgayBatDau.DataPropertyName = "NgayBatDau";
+            this.col_NgayBatDau.HeaderText = "Ngày bắt đầu";
+            this.col_NgayBatDau.MinimumWidth = 6;
+            this.col_NgayBatDau.Name = "col_NgayBatDau";
+            // 
+            // col_NgayKetThuc
+            // 
+            this.col_NgayKetThuc.DataPropertyName = "NgayKetThuc";
+            this.col_NgayKetThuc.HeaderText = "Ngày kết thúc";
+            this.col_NgayKetThuc.MinimumWidth = 6;
+            this.col_NgayKetThuc.Name = "col_NgayKetThuc";
             // 
             // dgv_DanhSachCacLopHLV
             // 
@@ -81,8 +109,29 @@
             this.dgv_DanhSachCacLopHLV.RowHeadersWidth = 51;
             this.dgv_DanhSachCacLopHLV.RowTemplate.Height = 24;
             this.dgv_DanhSachCacLopHLV.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv_DanhSachCacLopHLV.Size = new System.Drawing.Size(591, 533);
+            this.dgv_DanhSachCacLopHLV.Size = new System.Drawing.Size(591, 597);
             this.dgv_DanhSachCacLopHLV.TabIndex = 19;
+            // 
+            // col_MaLop
+            // 
+            this.col_MaLop.DataPropertyName = "MaLop";
+            this.col_MaLop.HeaderText = "Mã lớp";
+            this.col_MaLop.MinimumWidth = 6;
+            this.col_MaLop.Name = "col_MaLop";
+            // 
+            // col_TenLop
+            // 
+            this.col_TenLop.DataPropertyName = "TenLop";
+            this.col_TenLop.HeaderText = "Tên lớp";
+            this.col_TenLop.MinimumWidth = 6;
+            this.col_TenLop.Name = "col_TenLop";
+            // 
+            // col_SoLuongHocVien
+            // 
+            this.col_SoLuongHocVien.DataPropertyName = "SoLuong";
+            this.col_SoLuongHocVien.HeaderText = "Số lượng";
+            this.col_SoLuongHocVien.MinimumWidth = 6;
+            this.col_SoLuongHocVien.Name = "col_SoLuongHocVien";
             // 
             // label1
             // 
@@ -112,18 +161,6 @@
             this.dgv_DanhSachHLV.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_DanhSachHLV.Size = new System.Drawing.Size(958, 713);
             this.dgv_DanhSachHLV.TabIndex = 21;
-            // 
-            // btn_ThemHLV
-            // 
-            this.btn_ThemHLV.BackColor = System.Drawing.Color.SteelBlue;
-            this.btn_ThemHLV.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_ThemHLV.ForeColor = System.Drawing.SystemColors.HighlightText;
-            this.btn_ThemHLV.Location = new System.Drawing.Point(1033, 54);
-            this.btn_ThemHLV.Name = "btn_ThemHLV";
-            this.btn_ThemHLV.Size = new System.Drawing.Size(591, 75);
-            this.btn_ThemHLV.TabIndex = 20;
-            this.btn_ThemHLV.Text = "Thêm huấn luyện viên";
-            this.btn_ThemHLV.UseVisualStyleBackColor = false;
             // 
             // col_MaHLV
             // 
@@ -167,54 +204,17 @@
             this.col_NamKinhNghiemHLV.MinimumWidth = 6;
             this.col_NamKinhNghiemHLV.Name = "col_NamKinhNghiemHLV";
             // 
-            // Col_MaHV
+            // btn_ThemHLV
             // 
-            this.Col_MaHV.DataPropertyName = "MaKH";
-            this.Col_MaHV.HeaderText = "Mã hội viên";
-            this.Col_MaHV.MinimumWidth = 6;
-            this.Col_MaHV.Name = "Col_MaHV";
-            // 
-            // col_TenHocVien
-            // 
-            this.col_TenHocVien.DataPropertyName = "TenKH";
-            this.col_TenHocVien.HeaderText = "Tên học viên";
-            this.col_TenHocVien.MinimumWidth = 6;
-            this.col_TenHocVien.Name = "col_TenHocVien";
-            // 
-            // col_NgayBatDau
-            // 
-            this.col_NgayBatDau.DataPropertyName = "NgayBatDau";
-            this.col_NgayBatDau.HeaderText = "Ngày bắt đầu";
-            this.col_NgayBatDau.MinimumWidth = 6;
-            this.col_NgayBatDau.Name = "col_NgayBatDau";
-            // 
-            // col_NgayKetThuc
-            // 
-            this.col_NgayKetThuc.DataPropertyName = "NgayKetThuc";
-            this.col_NgayKetThuc.HeaderText = "Ngày kết thúc";
-            this.col_NgayKetThuc.MinimumWidth = 6;
-            this.col_NgayKetThuc.Name = "col_NgayKetThuc";
-            // 
-            // col_MaLop
-            // 
-            this.col_MaLop.DataPropertyName = "MaLop";
-            this.col_MaLop.HeaderText = "Mã lớp";
-            this.col_MaLop.MinimumWidth = 6;
-            this.col_MaLop.Name = "col_MaLop";
-            // 
-            // col_TenLop
-            // 
-            this.col_TenLop.DataPropertyName = "TenLop";
-            this.col_TenLop.HeaderText = "Tên lớp";
-            this.col_TenLop.MinimumWidth = 6;
-            this.col_TenLop.Name = "col_TenLop";
-            // 
-            // col_SoLuongHocVien
-            // 
-            this.col_SoLuongHocVien.DataPropertyName = "SoLuong";
-            this.col_SoLuongHocVien.HeaderText = "Số lượng";
-            this.col_SoLuongHocVien.MinimumWidth = 6;
-            this.col_SoLuongHocVien.Name = "col_SoLuongHocVien";
+            this.btn_ThemHLV.BackColor = System.Drawing.Color.SteelBlue;
+            this.btn_ThemHLV.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_ThemHLV.ForeColor = System.Drawing.SystemColors.HighlightText;
+            this.btn_ThemHLV.Location = new System.Drawing.Point(1033, 54);
+            this.btn_ThemHLV.Name = "btn_ThemHLV";
+            this.btn_ThemHLV.Size = new System.Drawing.Size(591, 75);
+            this.btn_ThemHLV.TabIndex = 20;
+            this.btn_ThemHLV.Text = "Thêm huấn luyện viên";
+            this.btn_ThemHLV.UseVisualStyleBackColor = false;
             // 
             // frmHuanLuyenVien
             // 

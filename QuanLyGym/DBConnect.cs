@@ -10,7 +10,7 @@ namespace QuanLyGym
 {
     public class DBConnect
     {
-        static string conStr = "Data Source=LAPTOP-KFHR4M8Q;Initial Catalog=QL_GYM;Integrated Security=True;";
+        static string conStr = "Data Source=localhost;Initial Catalog=QL_GYM;Integrated Security=True;";
 
         SqlConnection conn = new SqlConnection(conStr);
 
@@ -46,6 +46,47 @@ namespace QuanLyGym
             }
             catch
             {
+                return false;
+            }
+        }
+
+        public DataTable GetData(SqlCommand cmd)
+        {
+            try
+            {
+                OpenConn();
+                cmd.Connection = conn; // Gán connection cho command
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                CloseConn();
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                CloseConn();
+                Console.WriteLine("Lỗi DBConnect.GetData(cmd): " + ex.Message);
+                return null;
+            }
+        }
+
+        /**
+         * Hàm này dùng cho INSERT, UPDATE, DELETE (có tham số)
+         */
+        public bool ExecuteNonQuery(SqlCommand cmd)
+        {
+            try
+            {
+                OpenConn();
+                cmd.Connection = conn; // Gán connection cho command
+                cmd.ExecuteNonQuery();
+                CloseConn();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                CloseConn();
+                Console.WriteLine("Lỗi DBConnect.ExecuteNonQuery(cmd): " + ex.Message);
                 return false;
             }
         }

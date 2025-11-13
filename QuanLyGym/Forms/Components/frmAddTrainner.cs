@@ -36,15 +36,15 @@ namespace QuanLyGym.Forms.Components
             {
                 try
                 {
-                    // 4. LẤY ĐƯỜNG DẪN FILE ĐÃ CHỌN
+                    //LẤY ĐƯỜNG DẪN FILE ĐÃ CHỌN
                     string selectedImagePath = dialog.FileName;
 
-                    // 5. TẢI HÌNH ẢNH VÀO PICTUREBOX
-                    // (Nên dùng new Bitmap() để tránh lỗi khóa file)
+                    //TẢI HÌNH ẢNH VÀO PICTUREBOX
+                    
                     ptb_HLV.Image = new Bitmap(selectedImagePath);
 
-                    // (Tùy chọn) Chỉnh chế độ hiển thị cho vừa khung
-                    ptb_HLV.SizeMode = PictureBoxSizeMode.Zoom;
+           
+                    ptb_HLV.SizeMode = PictureBoxSizeMode.StretchImage;
                     ptb_HLV.BackgroundImage = null;
                 }
                 catch (Exception ex)
@@ -53,7 +53,7 @@ namespace QuanLyGym.Forms.Components
                     MessageBox.Show("Lỗi: Không thể tải hình ảnh. " + ex.Message);
                 }
             
-        }
+            }
     }
     }
 }

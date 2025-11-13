@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using QuanLyGym.Forms.Components;
 
 namespace QuanLyGym.Forms
 {
@@ -30,10 +31,10 @@ namespace QuanLyGym.Forms
             this.txt_SearchMember.HandleCreated += Txt_SearchMember_HandleCreated;
             this.txt_SearchMember.KeyDown += Txt_SearchMember_KeyDown;
 
-            this.btn_AddMember.Click += Btn_AddMember_Click;
+            this.tlr_Function.Click += Btn_AddMember_Click;
             this.dgv_Members.CellMouseClick += Dgv_Members_CellMouseClick;
 
-            this.suaToolStripMenuItem.Click += SuaToolStripMenuItem_Click;
+            //this.suaToolStripMenuItem.Click += SuaToolStripMenuItem_Click;
             this.xoaToolStripMenuItem.Click += XoaToolStripMenuItem_Click;
             this.ChiTietToolStripMenuItem.Click += ChiTietToolStripMenuItem_Click;
 
@@ -129,8 +130,20 @@ namespace QuanLyGym.Forms
 
         private void ChiTietToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmAddMember frmAddMember = new frmAddMember(true);
-            frmAddMember.Show();
+            string maKH = dgv_Members.CurrentRow.Cells["Col_MaHoiVien"].Value?.ToString();
+            
+
+            if (dgv_Members.CurrentRow == null)
+            {
+                MessageBox.Show("Vui lòng chọn một hội viên.");
+                return;
+            }
+            frmChiTietMember frmChiTietMember = new frmChiTietMember(maKH);
+            frmChiTietMember.Show();
+
+
+
+
         }
 
         private void XoaToolStripMenuItem_Click(object sender, EventArgs e)
@@ -151,19 +164,19 @@ namespace QuanLyGym.Forms
             
         }
 
-        private void SuaToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmAddMember frmAddMember = new frmAddMember(bsKhachHang);
-            
-            //if (dgv_Members.SelectedRows.Count > 0)
-            //{
-            //    // Lấy ID hoặc dữ liệu từ dòng đã chọn
-            //    string id = dgv_Members.SelectedRows[0].Cells["ID"].Value.ToString();
-            //        MessageBox.Show($"Bạn chọn XÓA dòng có ID: {id}");
-            //}
-            frmAddMember.FormClosed += (s, args) => LoadKhachHang(); // reload khi đóng
-            frmAddMember.Show();
-        }
+        //private void SuaToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    frmAddMember frmAddMember = new frmAddMember(bsKhachHang);
+
+        //    if (dgv_Members.SelectedRows.Count > 0)
+        //    {
+        //        // Lấy ID hoặc dữ liệu từ dòng đã chọn
+        //        string id = dgv_Members.SelectedRows[0].Cells["ID"].Value.ToString();
+        //        MessageBox.Show($"Bạn chọn XÓA dòng có ID: {id}");
+        //    }
+        //    frmAddMember.FormClosed += (s, args) => LoadKhachHang(); // reload khi đóng
+        //    frmAddMember.Show();
+        //}
 
         private void Dgv_Members_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {

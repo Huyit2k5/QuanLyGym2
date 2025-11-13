@@ -3,33 +3,303 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using QuanLyGym.BUS;
 namespace QuanLyGym.Forms.Components
 {
     public partial class frmChiTietMember : Form
     {
-        public frmChiTietMember()
+        private string maKhachHang_NhanDuoc;
+        KhachHangBUS khBus = new KhachHangBUS();
+        LichBUS lichBUS = new LichBUS();
+        public frmChiTietMember(string maKH)
         {
             InitializeComponent();
             this.btn_DangKyPT.Click += Btn_DangKyPT_Click;
             this.btn_DangKyLop.Click += Btn_DangKyLop_Click;
+            this.Load += frmChiTietMember_Load;
+            this.maKhachHang_NhanDuoc = maKH;
+            this.dtpChonNgay.ValueChanged += new System.EventHandler(this.dtpChonNgay_ValueChanged);
+            this.btnTuanTruoc.Click += new System.EventHandler(this.btnTuanTruoc_Click);
+            this.btnTuanSau.Click += new System.EventHandler(this.btnTuanSau_Click);
+        }
 
+
+        private void dtpChonNgay_ValueChanged(object sender, EventArgs e)
+        {
+            // Lấy ngày mới từ DateTimePicker
+            DateTime ngayMoi = dtpChonNgay.Value;
+
+            // Gọi hàm tải lịch (hàm này bạn đã có)
+            LoadCalendar(ngayMoi);
+        }
+
+        private void btnTuanTruoc_Click(object sender, EventArgs e)
+        {
+            // 1. Lấy ngày đang hiển thị
+            DateTime ngayHienTai = dtpChonNgay.Value;
+
+            // 2. Tính ngày của tuần trước (trừ đi 7 ngày)
+            DateTime ngayTuanTruoc = ngayHienTai.AddDays(-7);
+
+            // 3. Gán lại giá trị cho DateTimePicker
+            // (Việc này sẽ TỰ ĐỘNG kích hoạt sự kiện "dtpChonNgay_ValueChanged"
+            // và gọi LoadCalendar(ngayTuanTruoc) cho bạn)
+            dtpChonNgay.Value = ngayTuanTruoc;
+        }
+
+        private void btnTuanSau_Click(object sender, EventArgs e)
+        {
+            // 1. Lấy ngày đang hiển thị
+            DateTime ngayHienTai = dtpChonNgay.Value;
+
+            // 2. Tính ngày của tuần sau (cộng thêm 7 ngày)
+            DateTime ngayTuanSau = ngayHienTai.AddDays(7);
+
+            // 3. Gán lại giá trị
+            dtpChonNgay.Value = ngayTuanSau;
         }
 
         private void Btn_DangKyLop_Click(object sender, EventArgs e)
         {
             frmDangKyLop frmDangKyLop = new frmDangKyLop();
             frmDangKyLop.ShowDialog();
+            
         }
 
         private void Btn_DangKyPT_Click(object sender, EventArgs e)
         {
            frmDangKyPT frmDangKyHLV = new frmDangKyPT();
             frmDangKyHLV.ShowDialog();
+
+        }
+
+        private void frmChiTietMember_Load(object sender, EventArgs e)
+        {
+            // Kiểm tra xem có mã được gửi sang không
+            if (!string.IsNullOrEmpty(maKhachHang_NhanDuoc))
+            {
+                // Gọi BUS để lấy dữ liệu
+                DataRow row = khBus.GetKH_ById(maKhachHang_NhanDuoc);
+
+                if (row != null)
+                {
+                    // Đổ dữ liệu lên các TextBox
+                    txt_MaHoiVien.Text = row["MaKH"].ToString();
+                    txt_HoVaTenHoiVien.Text = row["TenKH"].ToString();
+                    txt_NamSinh.Text = row["NamSinh"].ToString();
+                    cbo_GioiTinh.Text = row["GioiTinh"].ToString();
+                    txt_SDT.Text = row["SDT"].ToString();
+                    txt_Email.Text = row["Email"].ToString();
+                    cbo_TinhTrang.Text = row["TinhTrang"].ToString();
+                    if (row["HinhAnh"] != DBNull.Value && !string.IsNullOrEmpty(row["HinhAnh"].ToString()))
+                    {
+                        string duongDanAnh = Path.Combine(Application.StartupPath, row["HinhAnh"].ToString());
+                        if (File.Exists(duongDanAnh))
+                        {
+                            pic_PictureMember.Image = new Bitmap(duongDanAnh);
+                            pic_PictureMember.SizeMode = PictureBoxSizeMode.StretchImage;
+                            pic_PictureMember.BackgroundImage = null;
+                        }
+                    }
+
+                    SetReadOnlyMode();
+                    
+                }
+
+                LoadCalendar(DateTime.Now);
+
+
+            }
+
+
+        }
+
+        // Trong frmChiTietMember.cs
+        public void LoadCalendar(DateTime ngayTrongTuan)
+        {
+            // 1. Tính toán ngày (Giữ nguyên)
+            DateTime ngayDauTuan = GetStartOfWeek(ngayTrongTuan);
+            DateTime ngayCuoiTuan = ngayDauTuan.AddDays(6);
+
+            // 2. Cập nhật Headers (Giữ nguyên)
+            UpdateHeaders(ngayDauTuan);
+
+            // 3. Xóa lịch cũ (Giữ nguyên)
+            ClearAllCells();
+
+            // 4. Lấy dữ liệu (SỬA LẠI DÒNG NÀY)
+            // Gửi cả 2 ngày vào
+            DataTable dtLop = lichBUS.GetLichLop_ByKH(this.maKhachHang_NhanDuoc, ngayDauTuan, ngayCuoiTuan);
+
+            // (Dòng này giữ nguyên)
+            DataTable dtPT = lichBUS.GetLichPT_ByKH(this.maKhachHang_NhanDuoc, ngayDauTuan, ngayCuoiTuan);
+
+            // 5. "Vẽ" lịch (Giữ nguyên)
+            foreach (DataRow row in dtLop.Rows)
+            {
+                VeMotLichHen(row);
+            }
+            foreach (DataRow row in dtPT.Rows)
+            {
+                VeMotLichHen(row);
+            }
+        }
+
+        private void VeMotLichHen(DataRow row)
+        {
+            // Lấy dữ liệu (GIỮ NGUYÊN)
+            string tieuDe = row["TieuDe"].ToString();
+            string chiTiet = row["ChiTiet"].ToString();
+            string loaiLich = row["LoaiLich"].ToString();
+            int thuTrongTuan = Convert.ToInt32(row["ThuTrongTuan"]);
+            TimeSpan gioBatDau = (TimeSpan)row["GioBatDau"];
+
+            // LẤY THÊM GIỜ KẾT THÚC
+            TimeSpan gioKetThuc = (TimeSpan)row["GioKetThuc"]; // Lấy cột mới
+
+            // TẠO CHUỖI THỜI GIAN (ví dụ: "06:00 - 07:00")
+            string thoiGian = string.Format("{0:hh\\:mm} - {1:hh\\:mm}", gioBatDau, gioKetThuc);
+
+            // Tạo Panel "khối" 
+            Panel pnlBlock = new Panel
+            {
+                Width = flpSangThu2.Width - 10,
+                Height = 150,
+                Margin = new Padding(3),
+                BorderStyle = BorderStyle.FixedSingle
+            };
+
+            //Tạo Label Tiêu đề (GIỮ NGUYÊN)
+            Label lblTieuDe = new Label
+            {
+                Text = tieuDe,
+                Font = new Font(this.Font.FontFamily, 8f, FontStyle.Bold),
+                Dock = DockStyle.Top,
+                AutoSize = false,
+                Height = 25,
+                TextAlign = ContentAlignment.MiddleCenter,
+                Padding = new Padding(2)
+            };
+
+            // Tạo Label Chi tiết (SỬA LẠI)
+            Label lblChiTiet = new Label
+            {
+                // THÊM CHUỖI THỜI GIAN VÀO ĐẦU
+                Text = thoiGian + "\n" + chiTiet,
+                Font = new Font(this.Font.FontFamily, 7f, FontStyle.Regular),
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.TopLeft,
+                Padding = new Padding(3)
+            };
+
+            // Gán màu (GIỮ NGUYÊN)
+            if (loaiLich == "Lop")
+                pnlBlock.BackColor = Color.FromArgb(220, 220, 220);
+            else if (loaiLich == "PT")
+                pnlBlock.BackColor = Color.FromArgb(200, 255, 200);
+
+            // 8. Thêm Control (GIỮ NGUYÊN)
+            pnlBlock.Controls.Add(lblChiTiet);
+            pnlBlock.Controls.Add(lblTieuDe);
+            FlowLayoutPanel cell = GetCell(thuTrongTuan, gioBatDau);
+            if (cell != null)
+            {
+                cell.Controls.Add(pnlBlock);
+            }
+        }
+        private FlowLayoutPanel GetCell(int thuTrongTuan, TimeSpan gioBatDau)
+        {
+            string caHoc = "Toi";
+            if (gioBatDau.Hours < 12) caHoc = "Sang";
+            else if (gioBatDau.Hours < 18) caHoc = "Chieu";
+
+            string tenThu = "CN"; // 1
+            if (thuTrongTuan == 2) tenThu = "Thu2";
+            else if (thuTrongTuan == 3) tenThu = "Thu3";
+            else if (thuTrongTuan == 4) tenThu = "Thu4";
+            else if (thuTrongTuan == 5) tenThu = "Thu5";
+            else if (thuTrongTuan == 6) tenThu = "Thu6";
+            else if (thuTrongTuan == 7) tenThu = "Thu7";
+
+            // (Bạn phải đặt tên control theo quy tắc này: flp[CaHoc][TenThu])
+            // Ví dụ: flpSangThu2, flpChieuThu5, flpToiCN
+            string controlName = "flp" + caHoc + tenThu;
+
+            Control[] matches = this.Controls.Find(controlName, true);
+            if (matches.Length > 0 && matches[0] is FlowLayoutPanel)
+            {
+                return (FlowLayoutPanel)matches[0];
+            }
+            return null;
+        }
+
+        private void ClearAllCells()
+        {
+            // SỬA "tableLayoutPanel1" THÀNH "tableLayoutPanel2"
+            foreach (Control ctrl in tableLayoutPanel2.Controls)
+            {
+                if (ctrl is FlowLayoutPanel)
+                {
+                    ((FlowLayoutPanel)ctrl).Controls.Clear();
+                }
+            }
+        }
+
+        /**
+         * Hàm cập nhật ngày cho các Header
+         */
+        private void UpdateHeaders(DateTime ngayDauTuan)
+        {
+            // (Giả sử tên Label Header là: lblThu2, lblThu3, ...)
+            lblThu2.Text = "Thứ 2\n" + ngayDauTuan.ToString("dd/MM/yyyy");
+            lblThu3.Text = "Thứ 3\n" + ngayDauTuan.AddDays(1).ToString("dd/MM/yyyy");
+            lblThu4.Text = "Thứ 4\n" + ngayDauTuan.AddDays(2).ToString("dd/MM/yyyy");
+            lblThu5.Text = "Thứ 5\n" + ngayDauTuan.AddDays(3).ToString("dd/MM/yyyy");
+            lblThu6.Text = "Thứ 6\n" + ngayDauTuan.AddDays(4).ToString("dd/MM/yyyy");
+            lblThu7.Text = "Thứ 7\n" + ngayDauTuan.AddDays(5).ToString("dd/MM/yyyy");
+            lblCN.Text = "Chủ nhật\n" + ngayDauTuan.AddDays(6).ToString("dd/MM/yyyy");
+        }
+
+        /**
+         * Hàm tiện ích: Lấy ngày Thứ 2 của tuần
+         */
+        private DateTime GetStartOfWeek(DateTime dt)
+        {
+            // (Giả sử tuần bắt đầu từ Thứ 2 - Monday)
+            CultureInfo ci = CultureInfo.CurrentCulture;
+            DayOfWeek firstDay = DayOfWeek.Monday;
+
+            int offset = dt.DayOfWeek - firstDay;
+            if (offset < 0)
+            {
+                offset += 7;
+            }
+            return dt.AddDays(-offset);
+        }
+
+        private void SetReadOnlyMode()
+        {
+            this.Text = "Thông tin chi tiết hội viên";
+
+            // Vô hiệu hóa các control
+            txt_MaHoiVien.ReadOnly = true;
+            txt_HoVaTenHoiVien.ReadOnly = true;
+            txt_NamSinh.ReadOnly = true;
+            cbo_GioiTinh.Enabled = false;
+            txt_SDT.ReadOnly = true;
+            txt_Email.ReadOnly = true;
+            cbo_TinhTrang.Enabled = false;
+            pic_PictureMember.Enabled = false; // Không cho đổi ảnh
+        }
+
+        private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
+        {
 
         }
     }

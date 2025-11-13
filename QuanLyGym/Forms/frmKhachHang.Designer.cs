@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmKhachHang));
             this.txt_SearchMember = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -44,11 +45,14 @@
             this.ChiTietToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tlb_Members = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btn_AddMember = new System.Windows.Forms.Button();
+            this.tlr_Function = new System.Windows.Forms.ToolStrip();
+            this.btn_AddMember = new System.Windows.Forms.ToolStripButton();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Members)).BeginInit();
             this.ctt_SubFunctionMember.SuspendLayout();
             this.tlb_Members.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.tlr_Function.SuspendLayout();
             this.SuspendLayout();
             // 
             // txt_SearchMember
@@ -75,7 +79,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Times New Roman", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(442, 18);
+            this.label2.Location = new System.Drawing.Point(481, 45);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(242, 32);
             this.label2.TabIndex = 2;
@@ -184,7 +188,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.btn_AddMember);
+            this.groupBox1.Controls.Add(this.tlr_Function);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.txt_SearchMember);
@@ -195,17 +199,30 @@
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             // 
+            // tlr_Function
+            // 
+            this.tlr_Function.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.tlr_Function.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btn_AddMember});
+            this.tlr_Function.Location = new System.Drawing.Point(3, 18);
+            this.tlr_Function.Name = "tlr_Function";
+            this.tlr_Function.Size = new System.Drawing.Size(1616, 31);
+            this.tlr_Function.TabIndex = 5;
+            this.tlr_Function.Text = "toolStrip1";
+            // 
             // btn_AddMember
             // 
-            this.btn_AddMember.BackColor = System.Drawing.Color.SteelBlue;
-            this.btn_AddMember.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_AddMember.ForeColor = System.Drawing.SystemColors.HighlightText;
-            this.btn_AddMember.Location = new System.Drawing.Point(1043, 130);
+            this.btn_AddMember.Image = ((System.Drawing.Image)(resources.GetObject("btn_AddMember.Image")));
+            this.btn_AddMember.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_AddMember.Name = "btn_AddMember";
-            this.btn_AddMember.Size = new System.Drawing.Size(196, 42);
-            this.btn_AddMember.TabIndex = 4;
-            this.btn_AddMember.Text = "Thêm hội viên";
-            this.btn_AddMember.UseVisualStyleBackColor = false;
+            this.btn_AddMember.Size = new System.Drawing.Size(70, 28);
+            this.btn_AddMember.Text = "Thêm";
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
             // frmKhachHang
             // 
@@ -220,6 +237,8 @@
             this.tlb_Members.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.tlr_Function.ResumeLayout(false);
+            this.tlr_Function.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -241,6 +260,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col_SoDienThoai;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_DiaChi;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_TinhTrangGoi;
-        private System.Windows.Forms.Button btn_AddMember;
+        private System.Windows.Forms.ToolStrip tlr_Function;
+        private System.Windows.Forms.ToolStripButton btn_AddMember;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
     }
 }

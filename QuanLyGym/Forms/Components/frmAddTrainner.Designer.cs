@@ -45,7 +45,7 @@
             // 
             // ptb_HLV
             // 
-            this.ptb_HLV.BackgroundImage = global::QuanLyGym.Properties.Resources.add_image;
+            this.ptb_HLV.BackgroundImage = global::QuanLyGym.Properties.Resources.add_image1;
             this.ptb_HLV.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ptb_HLV.Location = new System.Drawing.Point(28, 40);
             this.ptb_HLV.Name = "ptb_HLV";

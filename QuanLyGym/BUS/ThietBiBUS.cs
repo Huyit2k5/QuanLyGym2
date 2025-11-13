@@ -13,7 +13,7 @@ namespace QuanLyGym.BUS
         DBConnect db = new DBConnect();
 
         //====================================================================
-        // PHẦN 1: XỬ LÝ BẢNG MASTER (ThietBi - Lưới bên trái)
+        // PHẦN 1: XỬ LÝ BẢNG MASTER (ThietBi - dgv bên trái)
         //====================================================================
 
         // (Hàm này của bạn đã có)
@@ -80,7 +80,7 @@ namespace QuanLyGym.BUS
         }
 
         //====================================================================
-        // PHẦN 2: XỬ LÝ BẢNG DETAIL (ChiTietThietBi - Lưới bên phải)
+        // PHẦN 2: XỬ LÝ BẢNG DETAIL (ChiTietThietBi - dgv bên phải)
         //====================================================================
 
         // Lấy chi tiết theo MaThietBi (để liên kết 2 lưới)

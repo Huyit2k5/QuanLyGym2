@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="BUS\HuanLuyenVienBUS.cs" />
     <Compile Include="BUS\KhachHangBUS.cs" />
+    <Compile Include="BUS\LichBUS.cs" />
     <Compile Include="BUS\ThietBiBUS.cs" />
     <Compile Include="DBConnect.cs" />
     <Compile Include="Forms\Components\frmAddTrainner.cs">
@@ -213,18 +214,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -240,18 +241,14 @@
     <Folder Include="DataAccess\" />
     <Folder Include="Database\" />
     <Folder Include="Reports\" />
+    <Folder Include="Resources\HoiVien\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\snapedit_1703427284007.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Gemini_Generated_Image_lo3k9ulo3k9ulo3k.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\add-image.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\LogoHuitGym.png" />
+    <Content Include="Resources\icon\add-image.png" />
+    <Content Include="Resources\icon\add-post.png" />
+    <Content Include="Resources\logo\Gemini_Generated_Image_lo3k9ulo3k9ulo3k.png" />
+    <Content Include="Resources\logo\LogoHuitGym.png" />
+    <Content Include="Resources\logo\snapedit_1703427284007.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
