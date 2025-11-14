@@ -15,6 +15,7 @@ namespace QuanLyGym.Modals
         string gioiTinh;
         string email;
         string tinhTrang;
+        string hinhAnh;
 
         public string MaKH { get => maKH; set => maKH = value; }
         public string TenKH { get => tenKH; set => tenKH = value; }
@@ -23,5 +24,6 @@ namespace QuanLyGym.Modals
         public string GioiTinh { get => gioiTinh; set => gioiTinh = value; }
         public string Email { get => email; set => email = value; }
         public string TinhTrang { get => tinhTrang; set => tinhTrang = value; }
+        public string HinhAnh { get => hinhAnh; set => hinhAnh = value; }
     }
 }

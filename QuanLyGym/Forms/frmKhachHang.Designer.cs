@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmKhachHang));
             this.txt_SearchMember = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -44,38 +45,43 @@
             this.ChiTietToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tlb_Members = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btn_AddMember = new System.Windows.Forms.Button();
+            this.tlr_Function = new System.Windows.Forms.ToolStrip();
+            this.btn_AddMember = new System.Windows.Forms.ToolStripButton();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Members)).BeginInit();
             this.ctt_SubFunctionMember.SuspendLayout();
             this.tlb_Members.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.tlr_Function.SuspendLayout();
             this.SuspendLayout();
             // 
             // txt_SearchMember
             // 
-            this.txt_SearchMember.Location = new System.Drawing.Point(146, 84);
-            this.txt_SearchMember.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.txt_SearchMember.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.txt_SearchMember.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.txt_SearchMember.Location = new System.Drawing.Point(129, 130);
             this.txt_SearchMember.Name = "txt_SearchMember";
-            this.txt_SearchMember.Size = new System.Drawing.Size(270, 26);
+            this.txt_SearchMember.Size = new System.Drawing.Size(333, 22);
             this.txt_SearchMember.TabIndex = 0;
+            this.txt_SearchMember.Tag = "";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(38, 82);
+            this.label1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(9, 130);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(79, 20);
+            this.label1.Size = new System.Drawing.Size(90, 23);
             this.label1.TabIndex = 1;
             this.label1.Text = "Tìm kiếm";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(306, 11);
+            this.label2.Font = new System.Drawing.Font("Times New Roman", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(481, 45);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(295, 38);
+            this.label2.Size = new System.Drawing.Size(242, 32);
             this.label2.TabIndex = 2;
             this.label2.Text = "Danh sách hội viên";
             // 
@@ -84,6 +90,7 @@
             this.dgv_Members.AllowUserToAddRows = false;
             this.dgv_Members.AllowUserToDeleteRows = false;
             this.dgv_Members.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgv_Members.BackgroundColor = System.Drawing.SystemColors.ActiveBorder;
             this.dgv_Members.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Members.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Col_MaHoiVien,
@@ -93,12 +100,12 @@
             this.col_TinhTrangGoi});
             this.dgv_Members.ContextMenuStrip = this.ctt_SubFunctionMember;
             this.dgv_Members.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv_Members.Location = new System.Drawing.Point(3, 128);
-            this.dgv_Members.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv_Members.Location = new System.Drawing.Point(3, 207);
             this.dgv_Members.Name = "dgv_Members";
             this.dgv_Members.RowHeadersWidth = 51;
             this.dgv_Members.RowTemplate.Height = 24;
-            this.dgv_Members.Size = new System.Drawing.Size(933, 430);
+            this.dgv_Members.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgv_Members.Size = new System.Drawing.Size(1622, 710);
             this.dgv_Members.TabIndex = 3;
             // 
             // Col_MaHoiVien
@@ -144,24 +151,24 @@
             this.suaToolStripMenuItem,
             this.ChiTietToolStripMenuItem});
             this.ctt_SubFunctionMember.Name = "ctt_SubFunctionMember";
-            this.ctt_SubFunctionMember.Size = new System.Drawing.Size(140, 100);
+            this.ctt_SubFunctionMember.Size = new System.Drawing.Size(126, 76);
             // 
             // xoaToolStripMenuItem
             // 
             this.xoaToolStripMenuItem.Name = "xoaToolStripMenuItem";
-            this.xoaToolStripMenuItem.Size = new System.Drawing.Size(139, 32);
+            this.xoaToolStripMenuItem.Size = new System.Drawing.Size(125, 24);
             this.xoaToolStripMenuItem.Text = "Xóa";
             // 
             // suaToolStripMenuItem
             // 
             this.suaToolStripMenuItem.Name = "suaToolStripMenuItem";
-            this.suaToolStripMenuItem.Size = new System.Drawing.Size(139, 32);
+            this.suaToolStripMenuItem.Size = new System.Drawing.Size(125, 24);
             this.suaToolStripMenuItem.Text = "Sửa";
             // 
             // ChiTietToolStripMenuItem
             // 
             this.ChiTietToolStripMenuItem.Name = "ChiTietToolStripMenuItem";
-            this.ChiTietToolStripMenuItem.Size = new System.Drawing.Size(139, 32);
+            this.ChiTietToolStripMenuItem.Size = new System.Drawing.Size(125, 24);
             this.ChiTietToolStripMenuItem.Text = "Chi tiết";
             // 
             // tlb_Members
@@ -172,46 +179,57 @@
             this.tlb_Members.Controls.Add(this.groupBox1, 0, 0);
             this.tlb_Members.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlb_Members.Location = new System.Drawing.Point(0, 0);
-            this.tlb_Members.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tlb_Members.Name = "tlb_Members";
             this.tlb_Members.RowCount = 2;
             this.tlb_Members.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 22.22222F));
             this.tlb_Members.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 77.77778F));
-            this.tlb_Members.Size = new System.Drawing.Size(939, 562);
+            this.tlb_Members.Size = new System.Drawing.Size(1628, 920);
             this.tlb_Members.TabIndex = 4;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.btn_AddMember);
+            this.groupBox1.Controls.Add(this.tlr_Function);
+            this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.txt_SearchMember);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(3, 4);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox1.Size = new System.Drawing.Size(933, 116);
+            this.groupBox1.Size = new System.Drawing.Size(1622, 198);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             // 
+            // tlr_Function
+            // 
+            this.tlr_Function.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.tlr_Function.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btn_AddMember});
+            this.tlr_Function.Location = new System.Drawing.Point(3, 18);
+            this.tlr_Function.Name = "tlr_Function";
+            this.tlr_Function.Size = new System.Drawing.Size(1616, 31);
+            this.tlr_Function.TabIndex = 5;
+            this.tlr_Function.Text = "toolStrip1";
+            // 
             // btn_AddMember
             // 
-            this.btn_AddMember.Location = new System.Drawing.Point(516, 79);
-            this.btn_AddMember.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btn_AddMember.Image = ((System.Drawing.Image)(resources.GetObject("btn_AddMember.Image")));
+            this.btn_AddMember.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_AddMember.Name = "btn_AddMember";
-            this.btn_AddMember.Size = new System.Drawing.Size(143, 29);
-            this.btn_AddMember.TabIndex = 0;
-            this.btn_AddMember.Text = "Thêm hội viên";
-            this.btn_AddMember.UseVisualStyleBackColor = true;
+            this.btn_AddMember.Size = new System.Drawing.Size(70, 28);
+            this.btn_AddMember.Text = "Thêm";
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
             // frmKhachHang
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(939, 562);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.txt_SearchMember);
+            this.ClientSize = new System.Drawing.Size(1628, 920);
             this.Controls.Add(this.tlb_Members);
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "frmKhachHang";
             this.Text = "frmKhachHang";
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Members)).EndInit();
@@ -219,8 +237,9 @@
             this.tlb_Members.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.tlr_Function.ResumeLayout(false);
+            this.tlr_Function.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -232,7 +251,6 @@
         private System.Windows.Forms.DataGridView dgv_Members;
         private System.Windows.Forms.TableLayoutPanel tlb_Members;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button btn_AddMember;
         private System.Windows.Forms.ContextMenuStrip ctt_SubFunctionMember;
         private System.Windows.Forms.ToolStripMenuItem xoaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem suaToolStripMenuItem;
@@ -242,5 +260,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col_SoDienThoai;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_DiaChi;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_TinhTrangGoi;
+        private System.Windows.Forms.ToolStrip tlr_Function;
+        private System.Windows.Forms.ToolStripButton btn_AddMember;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
     }
 }

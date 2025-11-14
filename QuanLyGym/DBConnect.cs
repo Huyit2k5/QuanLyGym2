@@ -50,6 +50,47 @@ namespace QuanLyGym
             }
         }
 
+<<<<<<< HEAD
+        public DataTable GetData(SqlCommand cmd)
+        {
+            try
+            {
+                OpenConn();
+                cmd.Connection = conn; // Gán connection cho command
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                CloseConn();
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                CloseConn();
+                Console.WriteLine("Lỗi DBConnect.GetData(cmd): " + ex.Message);
+                return null;
+            }
+        }
+
+        /**
+         * Hàm này dùng cho INSERT, UPDATE, DELETE (có tham số)
+         */
+        public bool ExecuteNonQuery(SqlCommand cmd)
+        {
+            try
+            {
+                OpenConn();
+                cmd.Connection = conn; // Gán connection cho command
+                cmd.ExecuteNonQuery();
+                CloseConn();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                CloseConn();
+                Console.WriteLine("Lỗi DBConnect.ExecuteNonQuery(cmd): " + ex.Message);
+                return false;
+            }
+=======
         public DataTable GetUserRoles(string username)
         {
             string query = $"SELECT r.name AS RoleName " +
@@ -58,6 +99,7 @@ namespace QuanLyGym
                            $"JOIN sys.database_principals p ON rm.member_principal_id = p.principal_id " +
                            $"WHERE p.name = '{username}'";
             return GetData(query);
+>>>>>>> ab2a394c041020c7733629b213fb30ddb275844d
         }
 
     }

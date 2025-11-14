@@ -63,9 +63,9 @@ namespace QuanLyGym.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap add_image {
+        internal static System.Drawing.Bitmap add_image1 {
             get {
-                object obj = ResourceManager.GetObject("add-image", resourceCulture);
+                object obj = ResourceManager.GetObject("add-image1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
