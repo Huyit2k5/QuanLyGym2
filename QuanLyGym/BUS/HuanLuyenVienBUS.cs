@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,12 +16,12 @@ namespace QuanLyGym.BUS
         //Lấy tất cả Huấn luyện viên
         public DataTable GetAllHLV()
         {
-            
+
             string sql = "SELECT MaHLV, TenHLV, GioiTinh, ChuyenMon, SDT, NamKinhNghiem FROM HuanLuyenVien";
             return db.GetData(sql);
         }
 
-        
+
         public string TuDongSinhMaHLV()
         {
             string sql = "SELECT MAX(MaHLV) FROM HuanLuyenVien";
@@ -28,14 +29,14 @@ namespace QuanLyGym.BUS
 
             if (dt.Rows.Count == 0 || dt.Rows[0][0] == DBNull.Value)
             {
-                return "HLV001"; 
+                return "HLV001";
             }
 
             string maxMa = dt.Rows[0][0].ToString();
-            string numberPart = new string(maxMa.Where(char.IsDigit).ToArray()); 
+            string numberPart = new string(maxMa.Where(char.IsDigit).ToArray());
             int.TryParse(numberPart, out int num);
             num++;
-            return "HLV" + num.ToString("D3"); 
+            return "HLV" + num.ToString("D3");
         }
 
         //Thêm Huấn luyện viên
@@ -96,7 +97,7 @@ namespace QuanLyGym.BUS
             }
             catch
             {
-                
+
                 return false;
             }
         }
@@ -107,11 +108,24 @@ namespace QuanLyGym.BUS
             return db.GetData(sql);
         }
 
-        
+
         public DataTable GetLop_ByHLV(string maHLV)
         {
             string sql = "EXEC PROC_GetLop_ByHLV '" + maHLV + "'";
             return db.GetData(sql);
+
+
+        }
+
+        // Lấy gói PT CÒN HẠN của 1 hội viên
+
+        public DataTable GetPT_ByKH(string maKH)
+        {
+            SqlCommand cmd = new SqlCommand("PROC_GetPT_ByKH");
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@MaKH", maKH);
+
+            return db.GetData(cmd);
         }
     }
 }

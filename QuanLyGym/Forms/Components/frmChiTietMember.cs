@@ -17,25 +17,109 @@ namespace QuanLyGym.Forms.Components
         private string maKhachHang_NhanDuoc;
         KhachHangBUS khBus = new KhachHangBUS();
         LichBUS lichBUS = new LichBUS();
+        LopBus lopBus = new LopBus();
+        HuanLuyenVienBUS hlvbus = new HuanLuyenVienBUS();
+        GoiTapBUS goiTapBus  = new GoiTapBUS();
         public frmChiTietMember(string maKH)
         {
             InitializeComponent();
             this.btn_DangKyPT.Click += Btn_DangKyPT_Click;
             this.btn_DangKyLop.Click += Btn_DangKyLop_Click;
+            this.btnTuanTruoc.Click += this.btnTuanTruoc_Click;
+            this.btnTuanSau.Click += this.btnTuanSau_Click;
+            this.btn_Goi.Click += Btn_Goi_Click;
+            this.btn_LopTap.Click += Btn_LopTap_Click;
+            this.btn_HuanLuyenVien.Click += Btn_HuanLuyenVien_Click;
+
             this.Load += frmChiTietMember_Load;
             this.maKhachHang_NhanDuoc = maKH;
-            this.dtpChonNgay.ValueChanged += new System.EventHandler(this.dtpChonNgay_ValueChanged);
-            this.btnTuanTruoc.Click += new System.EventHandler(this.btnTuanTruoc_Click);
-            this.btnTuanSau.Click += new System.EventHandler(this.btnTuanSau_Click);
+            this.dtpChonNgay.ValueChanged += this.dtpChonNgay_ValueChanged;
+            
         }
 
+        private void Btn_HuanLuyenVien_Click(object sender, EventArgs e)
+        {
+            // 1. Reset màu của tất cả các tab
+            ResetTabColors();
+            // 2. Đặt màu "active" (màu trắng) cho nút này
+            btn_HuanLuyenVien.BackColor = Color.White;
+            DataTable dt = hlvbus.GetPT_ByKH(this.maKhachHang_NhanDuoc);
+
+            txt_GoiHLV.ReadOnly = true; 
+            txt_TenHLV.ReadOnly = true;
+            txt_NgayBatDauGoiTapHLV.ReadOnly = true;
+            txt_NgayKetThucGoiTapHLV.ReadOnly = true;
+
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                DataRow row = dt.Rows[0];
+                txt_GoiHLV.Text = row["TenGoi"].ToString();
+                txt_TenHLV.Text = row["TenHLV"].ToString();
+                txt_NgayBatDauGoiTapHLV.Text = "Từ: " + Convert.ToDateTime(row["NgayBatDau"]).ToString("dd/MM/yyyy");
+                txt_NgayKetThucGoiTapHLV.Text = "Đến: " + Convert.ToDateTime(row["NgayHetHan"]).ToString("dd/MM/yyyy");
+                btn_DangKyPT.Text = "Gia hạn Gói PT";
+            }
+            else
+            {
+                txt_GoiHLV.Text = "Chưa đăng ký gói PT";
+                txt_TenHLV.Text = "HLV:";
+                txt_NgayBatDauGoiTapHLV.Text = "";
+                txt_NgayKetThucGoiTapHLV.Text = "";
+                btn_DangKyPT.Text = "Đăng ký Huấn luyện viên";
+            }
+            pnl_HuanLuyenVien.BringToFront();
+        }
+
+        private void Btn_LopTap_Click(object sender, EventArgs e)
+        {
+            // 1. Reset màu của tất cả các tab
+            ResetTabColors();
+            // 2. Đặt màu "active" (màu trắng) cho nút này
+            btn_LopTap.BackColor = Color.White;
+            dgv_DanhSachCacLopHLV.ReadOnly = true;
+            dgv_DanhSachCacLopHLV.DataSource = lopBus.GetLop_ByKH(this.maKhachHang_NhanDuoc);
+            pnl_LopCuaHoiVien.BringToFront();
+        }
+
+        private void Btn_Goi_Click(object sender, EventArgs e)
+        {
+            // 1. Reset màu của tất cả các tab
+            ResetTabColors();
+            // 2. Đặt màu "active" (màu trắng) cho nút này
+            btn_Goi.BackColor = Color.White;
+            DataTable dt = goiTapBus.GetGoiTap_ByKH(this.maKhachHang_NhanDuoc);
+            txt_TenGoi.ReadOnly = true;
+            
+            txt_NgayBatDauGoiTap.ReadOnly = true;
+            txt_NgayKetThucGoiTap.ReadOnly = true;
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                DataRow row = dt.Rows[0];
+                txt_TenGoi.Text = row["TenGoi"].ToString();
+                txt_NgayBatDauGoiTap.Text = "Từ: " + Convert.ToDateTime(row["NgayBatDau"]).ToString("dd/MM/yyyy");
+                txt_NgayKetThucGoiTap.Text = "Đến: " + Convert.ToDateTime(row["NgayHetHan"]).ToString("dd/MM/yyyy");
+                // Đã có gói -> Nút này là "Gia hạn"
+                btn_DangKyGoi.Text = "Gia hạn Gói tập";
+            }
+            else
+            {
+                txt_TenGoi.Text = "Chưa đăng ký gói tập";
+                txt_NgayBatDauGoiTap.Text = "";
+                txt_NgayKetThucGoiTap.Text = "";
+                // Chưa có gói -> Nút này là "Đăng ký mới"
+                btn_DangKyGoi.Text = "Đăng ký Gói tập mới";
+            }
+
+            pnl_GoiTapCuaHoiVien.BringToFront();
+
+        }
 
         private void dtpChonNgay_ValueChanged(object sender, EventArgs e)
         {
             // Lấy ngày mới từ DateTimePicker
             DateTime ngayMoi = dtpChonNgay.Value;
 
-            // Gọi hàm tải lịch (hàm này bạn đã có)
+            // Gọi hàm tải lịch 
             LoadCalendar(ngayMoi);
         }
 
@@ -49,7 +133,7 @@ namespace QuanLyGym.Forms.Components
 
             // 3. Gán lại giá trị cho DateTimePicker
             // (Việc này sẽ TỰ ĐỘNG kích hoạt sự kiện "dtpChonNgay_ValueChanged"
-            // và gọi LoadCalendar(ngayTuanTruoc) cho bạn)
+            // và gọi LoadCalendar(ngayTuanTruoc))
             dtpChonNgay.Value = ngayTuanTruoc;
         }
 
@@ -113,7 +197,7 @@ namespace QuanLyGym.Forms.Components
                 }
 
                 LoadCalendar(DateTime.Now);
-
+                Btn_Goi_Click(null, null);
 
             }
 
@@ -123,24 +207,24 @@ namespace QuanLyGym.Forms.Components
         // Trong frmChiTietMember.cs
         public void LoadCalendar(DateTime ngayTrongTuan)
         {
-            // 1. Tính toán ngày (Giữ nguyên)
+            // Tính toán ngày
             DateTime ngayDauTuan = GetStartOfWeek(ngayTrongTuan);
             DateTime ngayCuoiTuan = ngayDauTuan.AddDays(6);
 
-            // 2. Cập nhật Headers (Giữ nguyên)
+            // Cập nhật Headers
             UpdateHeaders(ngayDauTuan);
 
-            // 3. Xóa lịch cũ (Giữ nguyên)
+            // Xóa lịch cũ (Giữ nguyên)
             ClearAllCells();
 
-            // 4. Lấy dữ liệu (SỬA LẠI DÒNG NÀY)
+            // Lấy dữ liệu (SỬA LẠI DÒNG NÀY)
             // Gửi cả 2 ngày vào
             DataTable dtLop = lichBUS.GetLichLop_ByKH(this.maKhachHang_NhanDuoc, ngayDauTuan, ngayCuoiTuan);
 
-            // (Dòng này giữ nguyên)
+            
             DataTable dtPT = lichBUS.GetLichPT_ByKH(this.maKhachHang_NhanDuoc, ngayDauTuan, ngayCuoiTuan);
 
-            // 5. "Vẽ" lịch (Giữ nguyên)
+            // 5. "Vẽ" lịch 
             foreach (DataRow row in dtLop.Rows)
             {
                 VeMotLichHen(row);
@@ -175,7 +259,7 @@ namespace QuanLyGym.Forms.Components
                 BorderStyle = BorderStyle.FixedSingle
             };
 
-            //Tạo Label Tiêu đề (GIỮ NGUYÊN)
+            //Tạo Label Tiêu đề 
             Label lblTieuDe = new Label
             {
                 Text = tieuDe,
@@ -187,7 +271,7 @@ namespace QuanLyGym.Forms.Components
                 Padding = new Padding(2)
             };
 
-            // Tạo Label Chi tiết (SỬA LẠI)
+            // Tạo Label Chi tiết 
             Label lblChiTiet = new Label
             {
                 // THÊM CHUỖI THỜI GIAN VÀO ĐẦU
@@ -198,13 +282,13 @@ namespace QuanLyGym.Forms.Components
                 Padding = new Padding(3)
             };
 
-            // Gán màu (GIỮ NGUYÊN)
+            // Gán màu 
             if (loaiLich == "Lop")
                 pnlBlock.BackColor = Color.FromArgb(220, 220, 220);
             else if (loaiLich == "PT")
                 pnlBlock.BackColor = Color.FromArgb(200, 255, 200);
 
-            // 8. Thêm Control (GIỮ NGUYÊN)
+            // 8. Thêm Control 
             pnlBlock.Controls.Add(lblChiTiet);
             pnlBlock.Controls.Add(lblTieuDe);
             FlowLayoutPanel cell = GetCell(thuTrongTuan, gioBatDau);
@@ -227,7 +311,7 @@ namespace QuanLyGym.Forms.Components
             else if (thuTrongTuan == 6) tenThu = "Thu6";
             else if (thuTrongTuan == 7) tenThu = "Thu7";
 
-            // (Bạn phải đặt tên control theo quy tắc này: flp[CaHoc][TenThu])
+            
             // Ví dụ: flpSangThu2, flpChieuThu5, flpToiCN
             string controlName = "flp" + caHoc + tenThu;
 
@@ -241,7 +325,7 @@ namespace QuanLyGym.Forms.Components
 
         private void ClearAllCells()
         {
-            // SỬA "tableLayoutPanel1" THÀNH "tableLayoutPanel2"
+            
             foreach (Control ctrl in tableLayoutPanel2.Controls)
             {
                 if (ctrl is FlowLayoutPanel)
@@ -295,7 +379,16 @@ namespace QuanLyGym.Forms.Components
             txt_SDT.ReadOnly = true;
             txt_Email.ReadOnly = true;
             cbo_TinhTrang.Enabled = false;
-            pic_PictureMember.Enabled = false; // Không cho đổi ảnh
+            pic_PictureMember.Enabled = false;
+        }
+
+
+        private void ResetTabColors()
+        {
+            // Đặt TẤT CẢ các nút tab về màu mặc định (màu xám)
+            btn_Goi.BackColor = Color.LightGray;
+            btn_HuanLuyenVien.BackColor = Color.LightGray;
+            btn_LopTap.BackColor = Color.LightGray;
         }
 
         private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)

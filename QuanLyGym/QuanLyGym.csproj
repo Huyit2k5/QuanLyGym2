@@ -46,9 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BUS\GoiTapBUS.cs" />
     <Compile Include="BUS\HuanLuyenVienBUS.cs" />
     <Compile Include="BUS\KhachHangBUS.cs" />
     <Compile Include="BUS\LichBUS.cs" />
+    <Compile Include="BUS\LopBus.cs" />
     <Compile Include="BUS\ThietBiBUS.cs" />
     <Compile Include="BUS\NhanVienBUS.cs" />
     <Compile Include="DBConnect.cs" />
@@ -63,6 +65,12 @@
     </Compile>
     <Compile Include="Forms\Components\frmChiTietMember.Designer.cs">
       <DependentUpon>frmChiTietMember.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Components\frmDangKyGoiTap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Components\frmDangKyGoiTap.Designer.cs">
+      <DependentUpon>frmDangKyGoiTap.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Components\Header.cs">
       <SubType>Form</SubType>
@@ -277,6 +285,9 @@
   <ItemGroup>
     <Content Include="Resources\icon\add-image.png" />
     <Content Include="Resources\icon\add-post.png" />
+    <Content Include="Resources\icon\dumbbell.png" />
+    <Content Include="Resources\icon\gym.png" />
+    <Content Include="Resources\icon\trainer.png" />
     <Content Include="Resources\logo\Gemini_Generated_Image_lo3k9ulo3k9ulo3k.png" />
     <Content Include="Resources\logo\LogoHuitGym.png" />
     <Content Include="Resources\logo\snapedit_1703427284007.png" />
