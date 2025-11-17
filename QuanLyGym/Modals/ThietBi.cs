@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QuanLyGym.Modals
 {
-    internal class ThietBi
+    public class ThietBi
     {
         string maThietBi;
         string tenThietBi;

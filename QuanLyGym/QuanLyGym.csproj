@@ -50,7 +50,7 @@
     <Compile Include="BUS\HuanLuyenVienBUS.cs" />
     <Compile Include="BUS\KhachHangBUS.cs" />
     <Compile Include="BUS\LichBUS.cs" />
-    <Compile Include="BUS\LopBus.cs" />
+    <Compile Include="BUS\LopBUS.cs" />
     <Compile Include="BUS\ThietBiBUS.cs" />
     <Compile Include="BUS\NhanVienBUS.cs" />
     <Compile Include="DBConnect.cs" />
@@ -71,6 +71,12 @@
     </Compile>
     <Compile Include="Forms\Components\frmDangKyGoiTap.Designer.cs">
       <DependentUpon>frmDangKyGoiTap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Components\frmDatLichHLV.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Components\frmDatLichHLV.Designer.cs">
+      <DependentUpon>frmDatLichHLV.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Components\Header.cs">
       <SubType>Form</SubType>
@@ -214,6 +220,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Components\frmChiTietMember.resx">
       <DependentUpon>frmChiTietMember.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Components\frmDangKyGoiTap.resx">
+      <DependentUpon>frmDangKyGoiTap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Components\frmDangKyLop.resx">
+      <DependentUpon>frmDangKyLop.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Components\frmDatLichHLV.resx">
+      <DependentUpon>frmDatLichHLV.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmDangKyPT.resx">
       <DependentUpon>frmDangKyPT.cs</DependentUpon>

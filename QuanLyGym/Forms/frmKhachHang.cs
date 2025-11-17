@@ -87,7 +87,7 @@ namespace QuanLyGym.Forms
         private void FrmKhachHang_Load(object sender, EventArgs e)
         {
             LoadKhachHang();
-
+            dgv_Members.ReadOnly = true;
             
         }
 

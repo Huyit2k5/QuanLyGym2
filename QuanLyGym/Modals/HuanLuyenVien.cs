@@ -14,6 +14,7 @@ namespace QuanLyGym.Modals
         string gioiTinh;
         string chuyenMon;
         int namKinhNghiem;
+        string hinhAnh;
 
         public string MaHLV { get => maHLV; set => maHLV = value; }
         public string TenHLV { get => tenHLV; set => tenHLV = value; }
@@ -21,5 +22,6 @@ namespace QuanLyGym.Modals
         public string GioiTinh { get => gioiTinh; set => gioiTinh = value; }
         public string ChuyenMon { get => chuyenMon; set => chuyenMon = value; }
         public int NamKinhNghiem { get => namKinhNghiem; set => namKinhNghiem = value; }
+        public string HinhAnh { get => hinhAnh; set => hinhAnh = value; }
     }
 }

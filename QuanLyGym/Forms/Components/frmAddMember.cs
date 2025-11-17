@@ -25,13 +25,15 @@ namespace QuanLyGym.Forms
             this.pic_PictureMember.Click += Pic_PictureMember_Click;
             this.txt_MaHoiVien.Enabled = false;
            
-          this.Load += FrmAddMember_Load;
+            this.Load += FrmAddMember_Load;
             this.btn_LuuHoiVien.Click += Btn_LuuHoiVien_Click;
+           
             
 
         }
 
-  
+       
+
         private void Btn_LuuHoiVien_Click(object sender, EventArgs e)
         {
             KhachHang kh = new KhachHang();

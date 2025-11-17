@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace QuanLyGym.BUS
 {
     
-    internal class GoiTapBUS
+    public class GoiTapBUS
     {
         DBConnect db = new DBConnect();
 
@@ -31,7 +31,7 @@ namespace QuanLyGym.BUS
             }
 
             string maxMa = dt.Rows[0][0].ToString();
-            string numberPart = new string(maxMa.Where(char.IsDigit).ToArray());
+            string numberPart = maxMa.Substring(2);
             int.TryParse(numberPart, out int num);
             num++;
             return "GT" + num.ToString("D2");
@@ -46,12 +46,40 @@ namespace QuanLyGym.BUS
             return db.GetData(cmd);
         }
 
-        
-        
-        
-      
+        public DataRow GetActiveTheThanhVien(string maKH)
+        {
+            SqlCommand cmd = new SqlCommand("PROC_GetGoiTap_ByKH");
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@MaKH", maKH);
 
-       
-        
+            DataTable dt = db.GetData(cmd);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                return dt.Rows[0];
+            }
+            return null;
+        }
+
+        // Hàm đăng ký
+        public bool DangKyGoiMoi(string maKH, string maNV, string maGoi, DateTime ngayBatDau)
+        {
+            SqlCommand cmd = new SqlCommand("PROC_DangKy_GoiTap");
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@MaKH", maKH);
+            cmd.Parameters.AddWithValue("@MaNV", maNV);
+            cmd.Parameters.AddWithValue("@MaGoi", maGoi);
+            cmd.Parameters.Add("@NgayBatDau", SqlDbType.Date).Value = ngayBatDau.Date;
+
+            // PROC này trả về 1 (Success) hoặc 0 (Fail)
+            DataTable dt = db.GetData(cmd);
+            return (dt.Rows[0]["Success"].ToString() == "1");
+        }
+
+
+
+
+
+
     }
 }

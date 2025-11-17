@@ -58,7 +58,7 @@ namespace QuanLyGym.Forms
             pnl_Main.Controls.Add(childForm);
             childForm.Show();
         }
-        private void Btn_ShowMember_Click(object sender, EventArgs e)
+        public void Btn_ShowMember_Click(object sender, EventArgs e)
         {
             OpenChildForm(new frmKhachHang());
 

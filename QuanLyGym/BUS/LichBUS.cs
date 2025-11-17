@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace QuanLyGym.BUS
 {
-    internal class LichBUS
+    public class LichBUS
     {
         DBConnect db = new DBConnect();
 
@@ -62,8 +62,26 @@ namespace QuanLyGym.BUS
             return db.GetData(cmd);
         }
 
+        public bool CheckHLVBan(string maHLV, DateTime ngayTap, TimeSpan gioBatDau, TimeSpan gioKetThuc)
+        {
+            SqlCommand cmd = new SqlCommand("PROC_Check_HLV_Ban");
+            cmd.CommandType = CommandType.StoredProcedure;
 
-        
+            cmd.Parameters.AddWithValue("@MaHLV", maHLV);
+            cmd.Parameters.Add("@NgayTap", SqlDbType.Date).Value = ngayTap;
+            cmd.Parameters.Add("@GioBatDau", SqlDbType.Time).Value = gioBatDau;
+            cmd.Parameters.Add("@GioKetThuc", SqlDbType.Time).Value = gioKetThuc;
+
+            DataTable dt = db.GetData(cmd);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                return (int)dt.Rows[0]["IsBusy"] == 1; // Trả về true nếu Bận
+            }
+            return false;
+        }
+
+
+
         public DataTable GetLichLop_ByKH(string maKH, DateTime ngayBatDauTuan, DateTime ngayKetThucTuan) // << THÊM THAM SỐ
         {
             SqlCommand cmd = new SqlCommand("PROC_GetSchedule_Lop_ByKH");
@@ -77,6 +95,26 @@ namespace QuanLyGym.BUS
             return db.GetData(cmd);
         }
 
+        // 4. Thêm buổi tập mới (Booking)
+        public bool ThemBuoiTap(string maDKPT, string maHLV, DateTime batDauFull, DateTime ketThucFull)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("PROC_Them_BuoiTap");
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@MaDKPT", maDKPT);
+                cmd.Parameters.AddWithValue("@MaHLV", maHLV);
+                cmd.Parameters.Add("@ThoiGianBatDau", SqlDbType.DateTime).Value = batDauFull;
+                cmd.Parameters.Add("@ThoiGianKetThuc", SqlDbType.DateTime).Value = ketThucFull;
+
+                return db.ExecuteNonQuery(cmd);
+            }
+            catch
+            {
+                return false;
+            }
+        }
         /**
          * Lấy danh sách LỊCH PT (linh hoạt) của MỘT HỘI VIÊN
          */

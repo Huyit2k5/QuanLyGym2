@@ -8,15 +8,41 @@ using System.Threading.Tasks;
 
 namespace QuanLyGym.BUS
 {
-    internal class LopBus
+    public class LopBUS
     {
         DBConnect db = new DBConnect();
 
-        public DataTable GetAllGoiTap()
+        public DataTable GetAllLop()
+        {
+            
+            SqlCommand cmd = new SqlCommand("PROC_GetAll_Lop");
+            cmd.CommandType = CommandType.StoredProcedure;
+            return db.GetData(cmd);
+        }
+
+        public DataTable GetAllLopForManage()
         {
 
-            string sql = "select * from Lop";
-            return db.GetData(sql);
+            SqlCommand cmd = new SqlCommand("PROC_GetFull_Lop");
+            cmd.CommandType = CommandType.StoredProcedure;
+            return db.GetData(cmd);
+        }
+
+
+        public bool DangKyLop(string maKH, string maNV, string maLop, DateTime ngayBatDau, int soThang)
+        {
+            
+            SqlCommand cmd = new SqlCommand("PROC_DangKy_Lop");
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@MaKH", maKH);
+            cmd.Parameters.AddWithValue("@MaNV", maNV);
+            cmd.Parameters.AddWithValue("@MaLop", maLop);
+            cmd.Parameters.Add("@NgayBatDau", SqlDbType.Date).Value = ngayBatDau.Date;
+            cmd.Parameters.AddWithValue("@SoThang", soThang);
+
+            DataTable dt = db.GetData(cmd);
+            return (dt.Rows[0]["Success"].ToString() == "1");
         }
         public DataTable GetHoiVienByLop(string maLop)
         {

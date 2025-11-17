@@ -66,6 +66,7 @@ namespace QuanLyGym
             {
                 CloseConn();
                 Console.WriteLine("Lỗi DBConnect.GetData(cmd): " + ex.Message);
+                System.Windows.Forms.MessageBox.Show("Lỗi SQL: " + ex.Message);
                 return null;
             }
         }

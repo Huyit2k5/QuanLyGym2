@@ -8,7 +8,7 @@ using QuanLyGym.Modals;
 
 namespace QuanLyGym.BUS
 {
-    internal class ThietBiBUS
+    public class ThietBiBUS
     {
         DBConnect db = new DBConnect();
 

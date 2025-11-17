@@ -15,7 +15,7 @@ namespace QuanLyGym.Forms
 {
     public partial class frmLop : Form
     {
-        LopBus lopBus = new LopBus();
+        LopBUS lopBus = new LopBUS();
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern Int32 SendMessage(IntPtr hWnd, int msg, int wParam, [MarshalAs(UnmanagedType.LPWStr)] string lParam);
 
@@ -26,13 +26,19 @@ namespace QuanLyGym.Forms
         public frmLop()
         {
             InitializeComponent();
-            this.btn_AddMember.Click += Btn_AddMember_Click;
+            this.btn_ThemLop.Click += Btn_ThemLop_Click;
+           
             this.txt_SearchLop.HandleCreated += Txt_SearchLop_HandleCreated;
             this.txt_SearchLop.KeyDown += Txt_SearchLop_KeyDown;
             this.dgv_DanhSachCacLop.SelectionChanged += Dgv_DanhSachCacLop_SelectionChanged;
 
             this.Load += FrmLop_Load;
 
+        }
+
+        private void Btn_ThemLop_Click(object sender, EventArgs e)
+        {
+            dgv_DanhSachCacLop.ReadOnly = false;
         }
 
         private void Dgv_DanhSachCacLop_SelectionChanged(object sender, EventArgs e)
@@ -54,8 +60,10 @@ namespace QuanLyGym.Forms
 
         private void FrmLop_Load(object sender, EventArgs e)
         {
+            dgv_DanhSachCacLop.ReadOnly = true;
             // 1. Tải dữ liệu từ BUS VÀO BINDINGSOURCE
-            bsLop.DataSource = lopBus.GetAllGoiTap();
+            bsLop.DataSource = lopBus.GetAllLopForManage();
+
 
             // 2. Gán DataGridView VÀO BINDINGSOURCE
             dgv_DanhSachCacLop.DataSource = bsLop;
@@ -131,11 +139,7 @@ namespace QuanLyGym.Forms
             SendMessage(txt_SearchLop.Handle, EM_SETCUEBANNER, 1, "Mã lớp/Tên lớp/Mã hlv cần tìm kiếm...");
         }
 
-        private void Btn_AddMember_Click(object sender, EventArgs e)
-        {
-            frmDangKyLop dkl = new frmDangKyLop();
-            dkl.ShowDialog();
-        }
+        
 
        
     }

@@ -15,26 +15,46 @@ namespace QuanLyGym.Forms.Components
     public partial class frmChiTietMember : Form
     {
         private string maKhachHang_NhanDuoc;
+        private string maDKPT_HienTai = null; 
+        private DateTime ngayHetHanGoiPT;
         KhachHangBUS khBus = new KhachHangBUS();
         LichBUS lichBUS = new LichBUS();
-        LopBus lopBus = new LopBus();
+        LopBUS lopBus = new LopBUS();
         HuanLuyenVienBUS hlvbus = new HuanLuyenVienBUS();
         GoiTapBUS goiTapBus  = new GoiTapBUS();
         public frmChiTietMember(string maKH)
         {
             InitializeComponent();
-            this.btn_DangKyPT.Click += Btn_DangKyPT_Click;
+            this.btn_DKGoiPT.Click += Btn_DKGoiPT_Click;
             this.btn_DangKyLop.Click += Btn_DangKyLop_Click;
             this.btnTuanTruoc.Click += this.btnTuanTruoc_Click;
             this.btnTuanSau.Click += this.btnTuanSau_Click;
             this.btn_Goi.Click += Btn_Goi_Click;
             this.btn_LopTap.Click += Btn_LopTap_Click;
             this.btn_HuanLuyenVien.Click += Btn_HuanLuyenVien_Click;
+            this.btn_DangKyGoi.Click += Btn_DangKyGoi_Click;
+            this.btn_DangKyPT.Click += Btn_DangKyPT_Click;
 
             this.Load += frmChiTietMember_Load;
             this.maKhachHang_NhanDuoc = maKH;
             this.dtpChonNgay.ValueChanged += this.dtpChonNgay_ValueChanged;
             
+        }
+
+        private void Btn_DangKyPT_Click(object sender, EventArgs e)
+        {
+             
+            frmDatLichHLV frm = new frmDatLichHLV(this.maDKPT_HienTai, this.ngayHetHanGoiPT);
+            frm.ShowDialog();
+
+            
+            LoadCalendar(DateTime.Now);
+        }
+
+        private void Btn_DangKyGoi_Click(object sender, EventArgs e)
+        {
+            frmDangKyGoiTap frmDangKyGoiTap = new frmDangKyGoiTap(this.maKhachHang_NhanDuoc);
+            frmDangKyGoiTap.ShowDialog();
         }
 
         private void Btn_HuanLuyenVien_Click(object sender, EventArgs e)
@@ -57,15 +77,24 @@ namespace QuanLyGym.Forms.Components
                 txt_TenHLV.Text = row["TenHLV"].ToString();
                 txt_NgayBatDauGoiTapHLV.Text = "Từ: " + Convert.ToDateTime(row["NgayBatDau"]).ToString("dd/MM/yyyy");
                 txt_NgayKetThucGoiTapHLV.Text = "Đến: " + Convert.ToDateTime(row["NgayHetHan"]).ToString("dd/MM/yyyy");
-                btn_DangKyPT.Text = "Gia hạn Gói PT";
+                this.ngayHetHanGoiPT = Convert.ToDateTime(row["NgayHetHan"]);
+                btn_DKGoiPT.Text = "Gia hạn Gói PT";
+                this.maDKPT_HienTai = row["MaDKPT"].ToString();
+                btn_DKGoiPT.Text = "Mua thêm Gói PT";
+                btn_DangKyPT.Enabled = true; // ĐƯỢC PHÉP ĐẶT LỊCH
+                btn_DangKyPT.BackColor = Color.SteelBlue;
             }
             else
             {
                 txt_GoiHLV.Text = "Chưa đăng ký gói PT";
-                txt_TenHLV.Text = "HLV:";
+                txt_TenHLV.Text = "";
                 txt_NgayBatDauGoiTapHLV.Text = "";
                 txt_NgayKetThucGoiTapHLV.Text = "";
-                btn_DangKyPT.Text = "Đăng ký Huấn luyện viên";
+                btn_DKGoiPT.Text = "Đăng ký Huấn luyện viên";
+                this.maDKPT_HienTai = null;
+                btn_DKGoiPT.Text = "Đăng ký Gói PT";
+                btn_DangKyPT.Enabled = false; // KHÓA NÚT ĐẶT LỊCH
+                btn_DangKyPT.BackColor = Color.LightGray; // Làm xám nút đi
             }
             pnl_HuanLuyenVien.BringToFront();
         }
@@ -151,15 +180,17 @@ namespace QuanLyGym.Forms.Components
 
         private void Btn_DangKyLop_Click(object sender, EventArgs e)
         {
-            frmDangKyLop frmDangKyLop = new frmDangKyLop();
+            frmDangKyLop frmDangKyLop = new frmDangKyLop(this.maKhachHang_NhanDuoc);
             frmDangKyLop.ShowDialog();
             
         }
 
-        private void Btn_DangKyPT_Click(object sender, EventArgs e)
+        private void Btn_DKGoiPT_Click(object sender, EventArgs e)
         {
-           frmDangKyPT frmDangKyHLV = new frmDangKyPT();
+           frmDangKyPT frmDangKyHLV = new frmDangKyPT(this.maKhachHang_NhanDuoc);
             frmDangKyHLV.ShowDialog();
+
+            Btn_HuanLuyenVien_Click(null, null);
 
         }
 
@@ -204,7 +235,7 @@ namespace QuanLyGym.Forms.Components
 
         }
 
-        // Trong frmChiTietMember.cs
+       
         public void LoadCalendar(DateTime ngayTrongTuan)
         {
             // Tính toán ngày
@@ -214,17 +245,17 @@ namespace QuanLyGym.Forms.Components
             // Cập nhật Headers
             UpdateHeaders(ngayDauTuan);
 
-            // Xóa lịch cũ (Giữ nguyên)
+            // Xóa lịch cũ 
             ClearAllCells();
 
-            // Lấy dữ liệu (SỬA LẠI DÒNG NÀY)
+            // Lấy dữ liệu 
             // Gửi cả 2 ngày vào
             DataTable dtLop = lichBUS.GetLichLop_ByKH(this.maKhachHang_NhanDuoc, ngayDauTuan, ngayCuoiTuan);
 
             
             DataTable dtPT = lichBUS.GetLichPT_ByKH(this.maKhachHang_NhanDuoc, ngayDauTuan, ngayCuoiTuan);
 
-            // 5. "Vẽ" lịch 
+            // "Vẽ" lịch 
             foreach (DataRow row in dtLop.Rows)
             {
                 VeMotLichHen(row);
@@ -237,7 +268,7 @@ namespace QuanLyGym.Forms.Components
 
         private void VeMotLichHen(DataRow row)
         {
-            // Lấy dữ liệu (GIỮ NGUYÊN)
+            // Lấy dữ liệu 
             string tieuDe = row["TieuDe"].ToString();
             string chiTiet = row["ChiTiet"].ToString();
             string loaiLich = row["LoaiLich"].ToString();
@@ -245,9 +276,9 @@ namespace QuanLyGym.Forms.Components
             TimeSpan gioBatDau = (TimeSpan)row["GioBatDau"];
 
             // LẤY THÊM GIỜ KẾT THÚC
-            TimeSpan gioKetThuc = (TimeSpan)row["GioKetThuc"]; // Lấy cột mới
+            TimeSpan gioKetThuc = (TimeSpan)row["GioKetThuc"]; 
 
-            // TẠO CHUỖI THỜI GIAN (ví dụ: "06:00 - 07:00")
+            // TẠO CHUỖI THỜI GIAN 
             string thoiGian = string.Format("{0:hh\\:mm} - {1:hh\\:mm}", gioBatDau, gioKetThuc);
 
             // Tạo Panel "khối" 
@@ -288,7 +319,7 @@ namespace QuanLyGym.Forms.Components
             else if (loaiLich == "PT")
                 pnlBlock.BackColor = Color.FromArgb(200, 255, 200);
 
-            // 8. Thêm Control 
+            // Thêm Control 
             pnlBlock.Controls.Add(lblChiTiet);
             pnlBlock.Controls.Add(lblTieuDe);
             FlowLayoutPanel cell = GetCell(thuTrongTuan, gioBatDau);

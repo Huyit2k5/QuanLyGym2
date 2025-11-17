@@ -44,20 +44,31 @@ namespace QuanLyGym.BUS
         {
             try
             {
-                db.OpenConn();
-                string sql = string.Format("EXEC PROC_THEM_HLV '{0}', N'{1}', N'{2}', N'{3}', '{4}', {5}",
-                    TuDongSinhMaHLV(),
-                    hlv.TenHLV,
-                    hlv.GioiTinh,
-                    hlv.ChuyenMon,
-                    hlv.Sdt,
-                    hlv.NamKinhNghiem);
+                SqlCommand cmd = new SqlCommand("PROC_THEM_HLV");
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                db.ExecuteNonQuery(sql);
-                return true;
+                cmd.Parameters.AddWithValue("@MaHLV", TuDongSinhMaHLV());
+                cmd.Parameters.AddWithValue("@TenHLV", hlv.TenHLV);
+                cmd.Parameters.AddWithValue("@GioiTinh", hlv.GioiTinh);
+                cmd.Parameters.AddWithValue("@ChuyenMon", hlv.ChuyenMon);
+                cmd.Parameters.AddWithValue("@SDT", hlv.Sdt);
+                cmd.Parameters.AddWithValue("@NamKinhNghiem", hlv.NamKinhNghiem);
+
+                // Thêm logic HinhAnh
+                if (string.IsNullOrEmpty(hlv.HinhAnh))
+                {
+                    cmd.Parameters.AddWithValue("@HinhAnh", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@HinhAnh", hlv.HinhAnh);
+                }
+
+                return db.ExecuteNonQuery(cmd); // Dùng hàm an toàn
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine("Lỗi BUS ThemHLV: " + ex.Message);
                 return false;
             }
         }
@@ -127,5 +138,73 @@ namespace QuanLyGym.BUS
 
             return db.GetData(cmd);
         }
+
+        public DataTable GetLichDayLop(string maHLV)
+        {
+            SqlCommand cmd = new SqlCommand("PROC_GetLichDayLop_ByHLV"); // Giả sử PROC này chưa có, xem bên dưới
+                                                                         // Hoặc dùng PROC_GetSchedule_LopTrongTuan (vì logic giống nhau)
+                                                                         // Nếu dùng PROC_GetSchedule_LopTrongTuan, bạn phải đổi tham số một chút
+
+            // Cách đơn giản nhất: Dùng PROC_GetSchedule_LopTrongTuan mà bạn đã có
+            // Vì PROC này đã lọc theo MaHLV rồi.
+            cmd = new SqlCommand("PROC_GetSchedule_LopTrongTuan");
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@MaHLV", maHLV);
+            return db.GetData(cmd);
+        }
+
+        //Lấy lịch dạy PT của HLV 
+        public DataTable GetLichDayPT(string maHLV, DateTime batDau, DateTime ketThuc)
+        {
+            SqlCommand cmd = new SqlCommand("PROC_GetLichDayPT_ByHLV");
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            // 1. Thêm tham số HLV
+            cmd.Parameters.AddWithValue("@MaHLV", maHLV);
+
+            // 2. THÊM ĐỦ 2 THAM SỐ NGÀY (QUAN TRỌNG)
+            // Lưu ý: Tên tham số phải khớp với trong SQL (@TuNgay, @DenNgay)
+            cmd.Parameters.Add("@TuNgay", SqlDbType.Date).Value = batDau.Date;
+            cmd.Parameters.Add("@DenNgay", SqlDbType.Date).Value = ketThuc.Date;
+
+            return db.GetData(cmd);
+        }
+        // Trong HuanLuyenVienBUS.cs
+
+        public bool DangKyGoiPT(string maKH, string maGoiPT, DateTime ngayBatDau) // << Bỏ string maNV
+        {
+            SqlCommand cmd = new SqlCommand("PROC_DangKy_GoiPT");
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@MaKH", maKH);
+            // cmd.Parameters.AddWithValue("@MaNV", maNV); // << XÓA DÒNG NÀY
+            cmd.Parameters.AddWithValue("@MaGoiPT", maGoiPT);
+            cmd.Parameters.Add("@NgayBatDau", SqlDbType.Date).Value = ngayBatDau.Date;
+
+            DataTable dt = db.GetData(cmd);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                return dt.Rows[0]["Success"].ToString() == "1";
+            }
+            return false;
+        }
+
+        public DataTable GetAllGoiPT()
+        {
+            // Gọi PROC để lấy danh sách: Mã, Tên, Số buổi, Đơn giá
+            SqlCommand cmd = new SqlCommand("PROC_GetAll_GoiPT");
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            return db.GetData(cmd);
+        }
+
+        public DataTable GetOnlyPT()
+        {
+            SqlCommand cmd = new SqlCommand("PROC_GetOnlyPT");
+            cmd.CommandType = CommandType.StoredProcedure;
+            return db.GetData(cmd);
+        }
+
     }
 }
