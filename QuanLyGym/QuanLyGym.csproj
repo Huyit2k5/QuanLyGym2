@@ -76,6 +76,12 @@
     <Compile Include="Forms\Components\MenuLeft.Designer.cs">
       <DependentUpon>MenuLeft.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Components\frmSuaNhanVien.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Components\frmSuaNhanVien.Designer.cs">
+      <DependentUpon>frmSuaNhanVien.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Components\ThongKeChart.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -206,6 +212,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Components\frmChiTietMember.resx">
       <DependentUpon>frmChiTietMember.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Components\frmSuaNhanVien.resx">
+      <DependentUpon>frmSuaNhanVien.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmDangKyPT.resx">
       <DependentUpon>frmDangKyPT.cs</DependentUpon>

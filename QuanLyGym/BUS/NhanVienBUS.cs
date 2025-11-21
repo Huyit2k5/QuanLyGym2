@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,6 +53,52 @@ namespace QuanLyGym.BUS
                 return false;
             }
 
+        }
+
+        public bool SuaNV(NhanVien nv)
+        {
+            try
+            {
+                db.OpenConn();
+                string sql = "EXEC SuaNhanVien @MaNV = '"+nv.MaNV+"', @TenNV = '"+nv.TenNV+"', @GioiTinh = N'"+nv.GioiTinh+"', @SDT = '"+nv.Sdt+"', @ChucVu = '"+nv.ChucVu+"'";
+                db.ExecuteNonQuery(sql);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+
+        public bool XoaNV(string maNV)
+        {
+            try
+            {
+                db.OpenConn();
+                string sql = "EXEC XoaNhanVien @MaNV = '"+maNV+"'";
+                db.ExecuteNonQuery(sql);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+        public DataRow GetNV_ById(string maNV)
+        {
+            string sql = "SELECT * FROM NhanVien WHERE MaNV = @MaNV";
+
+            SqlCommand cmd = new SqlCommand(sql);
+            cmd.Parameters.AddWithValue("@MaNV", maNV);
+
+            DataTable dt = db.GetData(cmd);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                return dt.Rows[0];
+            }
+            return null;
         }
     }
 }

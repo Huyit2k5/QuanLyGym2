@@ -50,7 +50,7 @@ namespace QuanLyGym
             }
         }
 
-<<<<<<< HEAD
+
         public DataTable GetData(SqlCommand cmd)
         {
             try
@@ -90,7 +90,8 @@ namespace QuanLyGym
                 Console.WriteLine("Lỗi DBConnect.ExecuteNonQuery(cmd): " + ex.Message);
                 return false;
             }
-=======
+        }
+
         public DataTable GetUserRoles(string username)
         {
             string query = $"SELECT r.name AS RoleName " +
@@ -99,7 +100,7 @@ namespace QuanLyGym
                            $"JOIN sys.database_principals p ON rm.member_principal_id = p.principal_id " +
                            $"WHERE p.name = '{username}'";
             return GetData(query);
->>>>>>> ab2a394c041020c7733629b213fb30ddb275844d
+
         }
 
     }
